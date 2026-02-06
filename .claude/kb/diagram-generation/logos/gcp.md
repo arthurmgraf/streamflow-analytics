@@ -1,0 +1,436 @@
+# GCP Service Logos
+
+Pre-encoded SVG logos for Google Cloud Platform services.
+Source: Simple Icons CDN (CC0)
+
+---
+
+## BigQuery
+
+- **fileId**: `bigquery_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `googlebigquery`
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIEJpZ1F1ZXJ5PC90aXRsZT48cGF0aCBkPSJNNS42NzYgMTAuNTk1aDIuMDUydjUuMjQ0YTUuODkyIDUuODkyIDAgMCAxLTIuMDUyLTIuMDg4di0zLjE1NnptMTguMTc5IDEwLjgzNmEuNTA0LjUwNCAwIDAgMSAwIC43MDhsLTEuNzE2IDEuNzE2YS41MDQuNTA0IDAgMCAxLS43MDggMGwtNC4yNDgtNC4yNDhhLjIwNi4yMDYgMCAwIDEtLjAwNy0uMDA3Yy0uMDItLjAyLS4wMjgtLjA0NS0uMDQzLS4wNjZhMTAuNzM2IDEwLjczNiAwIDAgMS02LjMzNCAyLjA2NUM0LjgzNSAyMS41OTkgMCAxNi43NjQgMCAxMC43OTlTNC44MzUgMCAxMC44IDBzMTAuNzk5IDQuODM1IDEwLjc5OSAxMC44YzAgMi4zNjktLjc3MiA0LjU1My0yLjA2NiA2LjMzMy4wMjUuMDE3LjA1Mi4wMjguMDc0LjA1bDQuMjQ4IDQuMjQ4em0tNS4wMjgtMTAuNjMyYTguMDE1IDguMDE1IDAgMSAwLTguMDI4IDguMDI4aC4wMjRhOC4wMTYgOC4wMTYgMCAwIDAgOC4wMDQtOC4wMjh6bS00Ljg2IDQuOThhNi4wMDIgNi4wMDIgMCAwIDAgMi4wNC0yLjE4NHYtMS43NjRoLTIuMDR2My45NDh6bS00LjUuOTQ4Yy40NDIuMDU3Ljg4Ny4wOCAxLjMzMi4wNzIuNC4wMjUuOC4wMjUgMS4yIDBWNy42OTJIOS40Njh2OS4wMzV6Ii8+PC9zdmc+`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_bigquery",
+  "fileId": "bigquery_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "bigquery_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "bigquery_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIEJpZ1F1ZXJ5PC90aXRsZT48cGF0aCBkPSJNNS42NzYgMTAuNTk1aDIuMDUydjUuMjQ0YTUuODkyIDUuODkyIDAgMCAxLTIuMDUyLTIuMDg4di0zLjE1NnptMTguMTc5IDEwLjgzNmEuNTA0LjUwNCAwIDAgMSAwIC43MDhsLTEuNzE2IDEuNzE2YS41MDQuNTA0IDAgMCAxLS43MDggMGwtNC4yNDgtNC4yNDhhLjIwNi4yMDYgMCAwIDEtLjAwNy0uMDA3Yy0uMDItLjAyLS4wMjgtLjA0NS0uMDQzLS4wNjZhMTAuNzM2IDEwLjczNiAwIDAgMS02LjMzNCAyLjA2NUM0LjgzNSAyMS41OTkgMCAxNi43NjQgMCAxMC43OTlTNC44MzUgMCAxMC44IDBzMTAuNzk5IDQuODM1IDEwLjc5OSAxMC44YzAgMi4zNjktLjc3MiA0LjU1My0yLjA2NiA2LjMzMy4wMjUuMDE3LjA1Mi4wMjguMDc0LjA1bDQuMjQ4IDQuMjQ4em0tNS4wMjgtMTAuNjMyYTguMDE1IDguMDE1IDAgMSAwLTguMDI4IDguMDI4aC4wMjRhOC4wMTYgOC4wMTYgMCAwIDAgOC4wMDQtOC4wMjh6bS00Ljg2IDQuOThhNi4wMDIgNi4wMDIgMCAwIDAgMi4wNC0yLjE4NHYtMS43NjRoLTIuMDR2My45NDh6bS00LjUuOTQ4Yy40NDIuMDU3Ljg4Ny4wOCAxLjMzMi4wNzIuNC4wMjUuOC4wMjUgMS4yIDBWNy42OTJIOS40Njh2OS4wMzV6Ii8+PC9zdmc+",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```
+
+---
+
+## Cloud Storage
+
+- **fileId**: `cloud_storage_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `googlecloudstorage`
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIENsb3VkIFN0b3JhZ2U8L3RpdGxlPjxwYXRoIGQ9Ik0yNCAyLjR2OC40aC0yLjRWMi40SDI0ek0wIDEwLjhoMi40VjIuNEgwdjguNHptMy04LjRoMTh2OC40SDNWMi40em0xMi42IDQuMmExLjggMS44IDAgMSAwIDMuNiAwIDEuOCAxLjggMCAwIDAtMy42IDB6bS0xMC44LjZIMTJWNkg0Ljh2MS4yem0xNi44IDE0LjRIMjR2LTguNGgtMi40djguNHpNMCAyMS42aDIuNHYtOC40SDB2OC40em0zLTguNGgxOHY4LjRIM3YtOC40em0xMi42IDQuMmExLjggMS44IDAgMSAwIDMuNiAwIDEuOCAxLjggMCAwIDAtMy42IDB6TTQuOCAxOEgxMnYtMS4ySDQuOFYxOHoiLz48L3N2Zz4=`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_cloud_storage",
+  "fileId": "cloud_storage_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "cloud_storage_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "cloud_storage_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIENsb3VkIFN0b3JhZ2U8L3RpdGxlPjxwYXRoIGQ9Ik0yNCAyLjR2OC40aC0yLjRWMi40SDI0ek0wIDEwLjhoMi40VjIuNEgwdjguNHptMy04LjRoMTh2OC40SDNWMi40em0xMi42IDQuMmExLjggMS44IDAgMSAwIDMuNiAwIDEuOCAxLjggMCAwIDAtMy42IDB6bS0xMC44LjZIMTJWNkg0Ljh2MS4yem0xNi44IDE0LjRIMjR2LTguNGgtMi40djguNHpNMCAyMS42aDIuNHYtOC40SDB2OC40em0zLTguNGgxOHY4LjRIM3YtOC40em0xMi42IDQuMmExLjggMS44IDAgMSAwIDMuNiAwIDEuOCAxLjggMCAwIDAtMy42IDB6TTQuOCAxOEgxMnYtMS4ySDQuOFYxOHoiLz48L3N2Zz4=",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```
+
+---
+
+## Cloud Functions
+
+- **fileId**: `cloud_functions_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `googlesearchconsole` (fallback -- `googlecloudfunctions` and `cloudfunctions` not available on Simple Icons)
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIFNlYXJjaCBDb25zb2xlPC90aXRsZT48cGF0aCBkPSJNOC41NDggMS4xNTZMNi44MzIgMi44NzJ2MS42ODJoMS43MTZ6bTAgMy4zOTh2LjAzNUg2LjgzMnYtLjAzNUgzLjM4NkwwIDcuODQ0djMuNTc3aDIuODI2VjguOTRjMC0uNTI1LjQyOS0uOTU0Ljk1NC0uOTU0aDE2LjQ3NmMuNTI1IDAgLjk1NC40My45NTQuOTU0djIuNDhoMi43NTRWNy44NDRsLTMuMzg2LTMuMjlIMTcuM3YuMDM1aC0xLjcxN3YtLjAzNXptNy4wMzUgMEgxNy4zVjIuODcybC0xLjcxNy0xLjcxNnpNOC42NzkgMS4xODhWMi44NGg2Ljc3M1YxLjE4OHptMTEuNDcxIDcuMDdhLjgzNC44MzQgMCAwMC0uMTMyLjAxbC0uNTQzLjAwMmMtNS4yMTYuMDE0LTEwLjQzMi0uMDA4LTE1LjY0OC4wMS0uNDM1LS4wNjMtLjc5NC40MzYtLjcxNi44ODN2Mi4yNjRoMTcuODEyYy0uMDE2LS44ODguMDQ1LTEuNzgyLS4wMzQtMi42NjYtLjEwNC0uMzQyLS40MjctLjUwMi0uNzM5LS41MDJ6bS0xNS40MjIuNjM0YS42ODkuNjk4IDAgMDEuNjg5LjY5OC42ODkuNjk4IDAgMDEtLjY4OS42OTcuNjg5LjY5OCAwIDAxLS42ODgtLjY5Ny42ODkuNjk4IDAgMDEuNjg4LS42OTh6bTIuMTM0IDBhLjY4OS42OTggMCAwMS42ODkuNjk4LjY4OS42OTggMCAwMS0uNjg5LjY5Ny42ODkuNjk4IDAgMDEtLjY4OC0uNjk3LjY4OS42OTggMCAwMS42ODgtLjY5OHpNLjAzNiAxMS42NDV2OS4xNTZjMCAxLjA1Ljg1OCAxLjkwOCAxLjkwNyAxLjkwOGguODgzVjExLjY0NXptMjEuMTc0IDB2MTEuMDY0aC44ODJjMS4wNSAwIDEuOTA4LS44NTggMS45MDgtMS45MDh2LTkuMTU2ek00LjA1NyAxMy4xMzN2Ni44NWg2LjEzN3YtNi44NXptMTMuMjQzLjAyMXYzLjc3N2wtMS43MDguOTc3LTEuNzA4LS45Nzd2LTMuNzU4YTQuMDA2IDQuMDA2IDAgMDAwIDcuMjN2Mi40NDFoMy40NTd2LTIuNDQyYTQuMDA2IDQuMDA2IDAgMDAtLjA0MS03LjI0OHptLTEzLjI0MyA4LjI2djEuNDNoNy45MjV2LTEuNDN6Ii8+PC9zdmc+`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_cloud_functions",
+  "fileId": "cloud_functions_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "cloud_functions_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "cloud_functions_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIFNlYXJjaCBDb25zb2xlPC90aXRsZT48cGF0aCBkPSJNOC41NDggMS4xNTZMNi44MzIgMi44NzJ2MS42ODJoMS43MTZ6bTAgMy4zOTh2LjAzNUg2LjgzMnYtLjAzNUgzLjM4NkwwIDcuODQ0djMuNTc3aDIuODI2VjguOTRjMC0uNTI1LjQyOS0uOTU0Ljk1NC0uOTU0aDE2LjQ3NmMuNTI1IDAgLjk1NC40My45NTQuOTU0djIuNDhoMi43NTRWNy44NDRsLTMuMzg2LTMuMjlIMTcuM3YuMDM1aC0xLjcxN3YtLjAzNXptNy4wMzUgMEgxNy4zVjIuODcybC0xLjcxNy0xLjcxNnpNOC42NzkgMS4xODhWMi44NGg2Ljc3M1YxLjE4OHptMTEuNDcxIDcuMDdhLjgzNC44MzQgMCAwMC0uMTMyLjAxbC0uNTQzLjAwMmMtNS4yMTYuMDE0LTEwLjQzMi0uMDA4LTE1LjY0OC4wMS0uNDM1LS4wNjMtLjc5NC40MzYtLjcxNi44ODN2Mi4yNjRoMTcuODEyYy0uMDE2LS44ODguMDQ1LTEuNzgyLS4wMzQtMi42NjYtLjEwNC0uMzQyLS40MjctLjUwMi0uNzM5LS41MDJ6bS0xNS40MjIuNjM0YS42ODkuNjk4IDAgMDEuNjg5LjY5OC42ODkuNjk4IDAgMDEtLjY4OS42OTcuNjg5LjY5OCAwIDAxLS42ODgtLjY5Ny42ODkuNjk4IDAgMDEuNjg4LS42OTh6bTIuMTM0IDBhLjY4OS42OTggMCAwMS42ODkuNjk4LjY4OS42OTggMCAwMS0uNjg5LjY5Ny42ODkuNjk4IDAgMDEtLjY4OC0uNjk3LjY4OS42OTggMCAwMS42ODgtLjY5OHpNLjAzNiAxMS42NDV2OS4xNTZjMCAxLjA1Ljg1OCAxLjkwOCAxLjkwNyAxLjkwOGguODgzVjExLjY0NXptMjEuMTc0IDB2MTEuMDY0aC44ODJjMS4wNSAwIDEuOTA4LS44NTggMS45MDgtMS45MDh2LTkuMTU2ek00LjA1NyAxMy4xMzN2Ni44NWg2LjEzN3YtNi44NXptMTMuMjQzLjAyMXYzLjc3N2wtMS43MDguOTc3LTEuNzA4LS45Nzd2LTMuNzU4YTQuMDA2IDQuMDA2IDAgMDAwIDcuMjN2Mi40NDFoMy40NTd2LTIuNDQyYTQuMDA2IDQuMDA2IDAgMDAtLjA0MS03LjI0OHptLTEzLjI0MyA4LjI2djEuNDNoNy45MjV2LTEuNDN6Ii8+PC9zdmc+",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```
+
+---
+
+## Cloud Run
+
+- **fileId**: `cloud_run_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `googlecloud` (fallback -- `googlecloudrun` and `cloudrun` not available on Simple Icons)
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIENsb3VkPC90aXRsZT48cGF0aCBkPSJNMTIuMTkgMi4zOGE5LjM0NCA5LjM0NCAwIDAgMC05LjIzNCA2Ljg5M2MuMDUzLS4wMi0uMDU1LjAxMyAwIDAtMy44NzUgMi41NTEtMy45MjIgOC4xMS0uMjQ3IDEwLjk0MWwuMDA2LS4wMDctLjAwNy4wM2E2LjcxNyA2LjcxNyAwIDAgMCA0LjA3NyAxLjM1Nmg1LjE3M2wuMDMuMDNoNS4xOTJjNi42ODcuMDUzIDkuMzc2LTguNjA1IDMuODM1LTEyLjM1YTkuMzY1IDkuMzY1IDAgMCAwLTIuODIxLTQuNTUybC0uMDQzLjA0My4wMDYtLjA1QTkuMzQ0IDkuMzQ0IDAgMCAwIDEyLjE5IDIuMzh6bS0uMzU4IDQuMTQ2YzEuMjQ0LS4wNCAyLjUxOC4zNjggMy40ODYgMS4xNWE1LjE4NiA1LjE4NiAwIDAgMSAxLjg2MiA0LjA3OHYuNTE4YzMuNTMtLjA3IDMuNTMgNS4yNjIgMCA1LjE5M2gtNS4xOTNsLS4wMDguMDA5di0uMDRINi43ODVhMi41OSAyLjU5IDAgMCAxLTEuMDY3LS4yM2guMDAxYTIuNTk3IDIuNTk3IDAgMSAxIDMuNDM3LTMuNDM3bDMuMDEzLTMuMDEyQTYuNzQ3IDYuNzQ3IDAgMCAwIDguMTEgOC4yNGMuMDE4LS4wMS4wNC0uMDI2LjA1NC0uMDIzYTUuMTg2IDUuMTg2IDAgMCAxIDMuNjctMS42OXoiLz48L3N2Zz4=`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_cloud_run",
+  "fileId": "cloud_run_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "cloud_run_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "cloud_run_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIENsb3VkPC90aXRsZT48cGF0aCBkPSJNMTIuMTkgMi4zOGE5LjM0NCA5LjM0NCAwIDAgMC05LjIzNCA2Ljg5M2MuMDUzLS4wMi0uMDU1LjAxMyAwIDAtMy44NzUgMi41NTEtMy45MjIgOC4xMS0uMjQ3IDEwLjk0MWwuMDA2LS4wMDctLjAwNy4wM2E2LjcxNyA2LjcxNyAwIDAgMCA0LjA3NyAxLjM1Nmg1LjE3M2wuMDMuMDNoNS4xOTJjNi42ODcuMDUzIDkuMzc2LTguNjA1IDMuODM1LTEyLjM1YTkuMzY1IDkuMzY1IDAgMCAwLTIuODIxLTQuNTUybC0uMDQzLjA0My4wMDYtLjA1QTkuMzQ0IDkuMzQ0IDAgMCAwIDEyLjE5IDIuMzh6bS0uMzU4IDQuMTQ2YzEuMjQ0LS4wNCAyLjUxOC4zNjggMy40ODYgMS4xNWE1LjE4NiA1LjE4NiAwIDAgMSAxLjg2MiA0LjA3OHYuNTE4YzMuNTMtLjA3IDMuNTMgNS4yNjIgMCA1LjE5M2gtNS4xOTNsLS4wMDguMDA5di0uMDRINi43ODVhMi41OSAyLjU5IDAgMCAxLTEuMDY3LS4yM2guMDAxYTIuNTk3IDIuNTk3IDAgMSAxIDMuNDM3LTMuNDM3bDMuMDEzLTMuMDEyQTYuNzQ3IDYuNzQ3IDAgMCAwIDguMTEgOC4yNGMuMDE4LS4wMS4wNC0uMDI2LjA1NC0uMDIzYTUuMTg2IDUuMTg2IDAgMCAxIDMuNjctMS42OXoiLz48L3N2Zz4=",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```
+
+---
+
+## Pub/Sub
+
+- **fileId**: `pubsub_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `googlepubsub`
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIFB1Yi9TdWI8L3RpdGxlPjxwYXRoIGQ9Ik0xOC4zIDcuNDUyYTIuMDY0IDIuMDY0IDAgMSAxIDQuMTI4IDAgMi4wNjQgMi4wNjQgMCAwIDEtNC4xMjggMHpNMy42MzYgOS41MTZhMi4wNjQgMi4wNjQgMCAxIDAgMC00LjEyOCAyLjA2NCAyLjA2NCAwIDAgMCAwIDQuMTI4ek0xMiAxOS44NzJBMi4wNjQgMi4wNjQgMCAxIDAgMTIgMjRhMi4wNjQgMi4wNjQgMCAwIDAgMC00LjEyOHptLTUuNzc0LTMuMTUxYTIuNTkxIDIuNTkxIDAgMCAwLS4xMTgtLjQ4YzAtLjAwMiAwLS4wMDQtLjAwMi0uMDA2YTIuNTk1IDIuNTk1IDAgMCAwLS4yLS40MzZsLS4wMDQtLjAwOGEyLjYxOCAyLjYxOCAwIDAgMC0uMjc2LS4zOWwtLjAwMS0uMDAxYTIuNjIyIDIuNjIyIDAgMCAwLS4zNDYtLjMzNiAyLjYwMyAyLjYwMyAwIDAgMC0xLjY0My0uNTkyQTIuNjI4IDIuNjI4IDAgMSAwIDYuMjY0IDE3LjFjMC0uMTMtLjAyLS4yNTQtLjAzOC0uMzh6bTguNDk5LTIuNTNjLjAzMy0uMDQ3LjA2My0uMDk3LjA5NC0uMTQ3YTMuMzIgMy4zMiAwIDAgMCAuMjAxLS4zN2MuMDI2LS4wNTUuMDUyLS4xMDguMDc0LS4xNjRhMy4zMDEgMy4zMDEgMCAwIDAgLjI0Mi0xLjIzNGMwLTEuNTEtMS4wMS0yLjc3Mi0yLjM4OC0zLjE4M2EzLjI3NyAzLjI3NyAwIDAgMC0uNDItLjFBMi44ODIgMi44ODIgMCAwIDAgMTIgOC45NGMtLjE4MyAwLS4zNTkuMDIxLS41MzIuMDU0YTMuMjcyIDMuMjcyIDAgMCAwLS40MjguMTAzIDMuMzI1IDMuMzI1IDAgMCAwLTIuMzc2IDMuMTc5YzAgLjU2Ny4xNTUgMS4wOTMuNDA1IDEuNTYxLjAyOC4wNTQuMDU1LjEwOC4wODYuMTYuMDYyLjEwMi4xMy4xOTguMjAxLjI5Mi4wMzkuMDUxLjA4LjA5OS4xMi4xNDdhMy4zMTQgMy4zMTQgMCAwIDAgNC44ODUuMTk2Yy4xMzUtLjEzNS4yNTQtLjI4NC4zNjQtLjQ0em0tOC45ODcuNjA4Yy40NzMuNDMzLjgxOCAxLjAwMi45NTYgMS42NTFsMi41NzUtMS40ODZhMy44MyAzLjgzIDAgMCAxLS45NDYtMS42NTdMNS43MzggMTQuOHptNS4zMDItOS4yMXYyLjk4OEEzLjc5IDMuNzkgMCAwIDEgMTIgOC40NGMuMzI5IDAgLjY0My4wNTUuOTQ4LjEzM3YtMi45OGMtLjMuMDk3LS42MTUuMTYzLS45NDguMTYzLS4zMzcgMC0uNjU2LS4wNjctLjk2LS4xNjZ6bTcuMzE3IDkuMTMyTDE1LjcxMSAxMy4yYTMuODE4IDMuODE4IDAgMCAxLS45MTQgMS42ODNsMi41NDIgMS40NmEzLjExNSAzLjExNSAwIDAgMSAxLjAxOC0xLjYyMnptMi4wMDctLjI0OWMtLjU4IDAtMS4xMTIuMTk0LTEuNTQ3LjUxM2EyLjYzMyAyLjYzMyAwIDAgMC0uNjYyLjcwMWwtLjAxMy4wMjRjLS4wODIuMTMtLjE1NS4yNjUtLjIxMi40MDktLjAwOC4wMi0uMDEyLjA0MS0uMDIuMDYxYTIuNTg4IDIuNTg4IDAgMCAwLS4xMjQuNDIxIDIuNjI4IDIuNjI4IDAgMSAwIDIuNTc4LTIuMTI5em0tOC44NjItOS4yNjZhMi41MiAyLjUyIDAgMCAwIC45OSAwQTIuNjI2IDIuNjI2IDAgMCAwIDEyIDBhMi42MjcgMi42MjcgMCAwIDAtLjQ5OCA1LjIwNnoiLz48L3N2Zz4=`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_pubsub",
+  "fileId": "pubsub_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "pubsub_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "pubsub_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIFB1Yi9TdWI8L3RpdGxlPjxwYXRoIGQ9Ik0xOC4zIDcuNDUyYTIuMDY0IDIuMDY0IDAgMSAxIDQuMTI4IDAgMi4wNjQgMi4wNjQgMCAwIDEtNC4xMjggMHpNMy42MzYgOS41MTZhMi4wNjQgMi4wNjQgMCAxIDAgMC00LjEyOCAyLjA2NCAyLjA2NCAwIDAgMCAwIDQuMTI4ek0xMiAxOS44NzJBMi4wNjQgMi4wNjQgMCAxIDAgMTIgMjRhMi4wNjQgMi4wNjQgMCAwIDAgMC00LjEyOHptLTUuNzc0LTMuMTUxYTIuNTkxIDIuNTkxIDAgMCAwLS4xMTgtLjQ4YzAtLjAwMiAwLS4wMDQtLjAwMi0uMDA2YTIuNTk1IDIuNTk1IDAgMCAwLS4yLS40MzZsLS4wMDQtLjAwOGEyLjYxOCAyLjYxOCAwIDAgMC0uMjc2LS4zOWwtLjAwMS0uMDAxYTIuNjIyIDIuNjIyIDAgMCAwLS4zNDYtLjMzNiAyLjYwMyAyLjYwMyAwIDAgMC0xLjY0My0uNTkyQTIuNjI4IDIuNjI4IDAgMSAwIDYuMjY0IDE3LjFjMC0uMTMtLjAyLS4yNTQtLjAzOC0uMzh6bTguNDk5LTIuNTNjLjAzMy0uMDQ3LjA2My0uMDk3LjA5NC0uMTQ3YTMuMzIgMy4zMiAwIDAgMCAuMjAxLS4zN2MuMDI2LS4wNTUuMDUyLS4xMDguMDc0LS4xNjRhMy4zMDEgMy4zMDEgMCAwIDAgLjI0Mi0xLjIzNGMwLTEuNTEtMS4wMS0yLjc3Mi0yLjM4OC0zLjE4M2EzLjI3NyAzLjI3NyAwIDAgMC0uNDItLjFBMi44ODIgMi44ODIgMCAwIDAgMTIgOC45NGMtLjE4MyAwLS4zNTkuMDIxLS41MzIuMDU0YTMuMjcyIDMuMjcyIDAgMCAwLS40MjguMTAzIDMuMzI1IDMuMzI1IDAgMCAwLTIuMzc2IDMuMTc5YzAgLjU2Ny4xNTUgMS4wOTMuNDA1IDEuNTYxLjAyOC4wNTQuMDU1LjEwOC4wODYuMTYuMDYyLjEwMi4xMy4xOTguMjAxLjI5Mi4wMzkuMDUxLjA4LjA5OS4xMi4xNDdhMy4zMTQgMy4zMTQgMCAwIDAgNC44ODUuMTk2Yy4xMzUtLjEzNS4yNTQtLjI4NC4zNjQtLjQ0em0tOC45ODcuNjA4Yy40NzMuNDMzLjgxOCAxLjAwMi45NTYgMS42NTFsMi41NzUtMS40ODZhMy44MyAzLjgzIDAgMCAxLS45NDYtMS42NTdMNS43MzggMTQuOHptNS4zMDItOS4yMXYyLjk4OEEzLjc5IDMuNzkgMCAwIDEgMTIgOC40NGMuMzI5IDAgLjY0My4wNTUuOTQ4LjEzM3YtMi45OGMtLjMuMDk3LS42MTUuMTYzLS45NDguMTYzLS4zMzcgMC0uNjU2LS4wNjctLjk2LS4xNjZ6bTcuMzE3IDkuMTMyTDE1LjcxMSAxMy4yYTMuODE4IDMuODE4IDAgMCAxLS45MTQgMS42ODNsMi41NDIgMS40NmEzLjExNSAzLjExNSAwIDAgMSAxLjAxOC0xLjYyMnptMi4wMDctLjI0OWMtLjU4IDAtMS4xMTIuMTk0LTEuNTQ3LjUxM2EyLjYzMyAyLjYzMyAwIDAgMC0uNjYyLjcwMWwtLjAxMy4wMjRjLS4wODIuMTMtLjE1NS4yNjUtLjIxMi40MDktLjAwOC4wMi0uMDEyLjA0MS0uMDIuMDYxYTIuNTg4IDIuNTg4IDAgMCAwLS4xMjQuNDIxIDIuNjI4IDIuNjI4IDAgMSAwIDIuNTc4LTIuMTI5em0tOC44NjItOS4yNjZhMi41MiAyLjUyIDAgMCAwIC45OSAwQTIuNjI2IDIuNjI2IDAgMCAwIDEyIDBhMi42MjcgMi42MjcgMCAwIDAtLjQ5OCA1LjIwNnoiLz48L3N2Zz4=",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```
+
+---
+
+## Looker Studio
+
+- **fileId**: `looker_studio_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `looker`
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+TG9va2VyPC90aXRsZT48cGF0aCBkPSJNMTEuOTQ3NSAwYy0xLjE1OTguMDAyMS0yLjA5ODIuOTQ0LTIuMDk2IDIuMTAzOGEyLjEgMi4xIDAgMDAuMzU2IDEuMTY2bC44OTUtLjg5NTlhLjg4NC44ODQgMCAxMS41NjUuNTY0bC0uODk1Ljg5NWMuOTU5My42NDc4IDIuMjYyMS4zOTUzIDIuOTEtLjU2NC42NDc4LS45NTkzLjM5NTMtMi4yNjItLjU2NC0yLjkxQTIuMDk2IDIuMDk2IDAgMDAxMS45NDc1IDB6bS0uODM1IDYuMTEyOGEzLjI2MjkgMy4yNjI5IDAgMDAtLjY1My0xLjk2NWwtMS4xNjQgMS4xNjJhMS42NjcgMS42NjcgMCAwMS0uMzE4IDIuMDEybC42MzIgMS41NDQ5YTMuMjgxOSAzLjI4MTkgMCAwMDEuNTAzLTIuNzU0em0tMy4yNDk5IDEuNjY2aC0uMDNjLS45MjE3LjAwMDktMS42Njk3LS43NDU1LTEuNjcwNy0xLjY2NzMtLjAwMS0uOTIxNy43NDU0LTEuNjY5NyAxLjY2NzItMS42NzA3YTEuNjY5IDEuNjY5IDAgMDEuOTE5NS4yNzVsMS4xNTItMS4xNTJjLTEuNDA2OS0xLjE0MS0zLjQ3MjQtLjkyNTctNC42MTM1LjQ4MTFzLS45MjU3IDMuNDcyMy40ODEgNC42MTM1YTMuMjc5OSAzLjI3OTkgMCAwMDIuNzI3NS42NjUybC0uNjMzLTEuNTQzOXYtLjAwMXptNC4xMjc5IDEuMzM1OWMtLjcyOCAwLTEuNDUyLjEwNi0yLjE1LjMxNWwuOTIyIDIuMjUxOWMyLjY4NzItLjY4MTkgNS40MTg0Ljk0MzggNi4xMDAyIDMuNjMxLjY4MTggMi42ODczLS45NDM5IDUuNDE4NC0zLjYzMTEgNi4xMDAycy01LjQxODQtLjk0MzktNi4xMDAyLTMuNjMxYy0uNTY4Mi0yLjIzOTQuNDY1NS00LjU3NzQgMi41MDQxLTUuNjY0M2wtLjkxLTIuMjQ0OWMtMy42OTA4IDEuODA4LTUuMjE3MyA2LjI2NTctMy40MDkzIDkuOTU2N2wuMDAwNS4wMDFjMS44MDggMy42OTA5IDYuMjY1NyA1LjIxNzMgOS45NTY3IDMuNDA5M2wuMDAxLS4wMDA1YzMuNjkxMy0xLjgwNzEgNS4yMTg3LTYuMjY0NSAzLjQxMTYtOS45NTU4YTcuNDQxNyA3LjQ0MTcgMCAwMC02LjY4NjUtNC4xNjk2aC0uMDA4bC0uMDAxLjAwMXoiLz48L3N2Zz4=`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_looker_studio",
+  "fileId": "looker_studio_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "looker_studio_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "looker_studio_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+TG9va2VyPC90aXRsZT48cGF0aCBkPSJNMTEuOTQ3NSAwYy0xLjE1OTguMDAyMS0yLjA5ODIuOTQ0LTIuMDk2IDIuMTAzOGEyLjEgMi4xIDAgMDAuMzU2IDEuMTY2bC44OTUtLjg5NTlhLjg4NC44ODQgMCAxMS41NjUuNTY0bC0uODk1Ljg5NWMuOTU5My42NDc4IDIuMjYyMS4zOTUzIDIuOTEtLjU2NC42NDc4LS45NTkzLjM5NTMtMi4yNjItLjU2NC0yLjkxQTIuMDk2IDIuMDk2IDAgMDAxMS45NDc1IDB6bS0uODM1IDYuMTEyOGEzLjI2MjkgMy4yNjI5IDAgMDAtLjY1My0xLjk2NWwtMS4xNjQgMS4xNjJhMS42NjcgMS42NjcgMCAwMS0uMzE4IDIuMDEybC42MzIgMS41NDQ5YTMuMjgxOSAzLjI4MTkgMCAwMDEuNTAzLTIuNzU0em0tMy4yNDk5IDEuNjY2aC0uMDNjLS45MjE3LjAwMDktMS42Njk3LS43NDU1LTEuNjcwNy0xLjY2NzMtLjAwMS0uOTIxNy43NDU0LTEuNjY5NyAxLjY2NzItMS42NzA3YTEuNjY5IDEuNjY5IDAgMDEuOTE5NS4yNzVsMS4xNTItMS4xNTJjLTEuNDA2OS0xLjE0MS0zLjQ3MjQtLjkyNTctNC42MTM1LjQ4MTFzLS45MjU3IDMuNDcyMy40ODEgNC42MTM1YTMuMjc5OSAzLjI3OTkgMCAwMDIuNzI3NS42NjUybC0uNjMzLTEuNTQzOXYtLjAwMXptNC4xMjc5IDEuMzM1OWMtLjcyOCAwLTEuNDUyLjEwNi0yLjE1LjMxNWwuOTIyIDIuMjUxOWMyLjY4NzItLjY4MTkgNS40MTg0Ljk0MzggNi4xMDAyIDMuNjMxLjY4MTggMi42ODczLS45NDM5IDUuNDE4NC0zLjYzMTEgNi4xMDAycy01LjQxODQtLjk0MzktNi4xMDAyLTMuNjMxYy0uNTY4Mi0yLjIzOTQuNDY1NS00LjU3NzQgMi41MDQxLTUuNjY0M2wtLjkxLTIuMjQ0OWMtMy42OTA4IDEuODA4LTUuMjE3MyA2LjI2NTctMy40MDkzIDkuOTU2N2wuMDAwNS4wMDFjMS44MDggMy42OTA5IDYuMjY1NyA1LjIxNzMgOS45NTY3IDMuNDA5M2wuMDAxLS4wMDA1YzMuNjkxMy0xLjgwNzEgNS4yMTg3LTYuMjY0NSAzLjQxMTYtOS45NTU4YTcuNDQxNyA3LjQ0MTcgMCAwMC02LjY4NjUtNC4xNjk2aC0uMDA4bC0uMDAxLjAwMXoiLz48L3N2Zz4=",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```
+
+---
+
+## Dataflow
+
+- **fileId**: `dataflow_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `googledataflow`
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIERhdGFmbG93PC90aXRsZT48cGF0aCBkPSJNNS44NTYgOS42IDMuNzIgOS41NjRsLjAzNi0yLjQ2IDYuMzEyLTMuNTE2TDUuOTQgMS4xNCA4LjAyOCAwbDQuMDkyIDIuNDM2aC4wMTJMMTYuMjg0LjEwOGguMDZsMS45OTIgMS4xODgtNC4xODggMi4zNTIgNi4xNjggMy42ODR2Mi40NmwtMi4xMjQtLjAzNi4wMTItMS4yODRMMTMuMTE2IDUuNGwtLjAyNCAyLjA3Ni0xLjIyNC0uMDEydi0uMDAyMmwtLjg0LS4wMDk4LjAyNC0yLjA3Ni01LjE3MiAyLjk0TDUuODU2IDkuNnptMTIuMjUyIDYuMDcyLTUuMTYgMi45NC4wMjQtMi4wNjQtMi4wNjQtLjAyNC0uMDI0IDIuMDY0LTUuMS0zLjA3Mi4wMTItMS4yNDhIMy42ODR2Mi40bDYuMTY4IDMuNjg0IDIuMDExMSAxLjE5NzEuMDA1LjAxNDlMMTUuOTcyIDI0aC4wNmwyLjAyOC0xLjE0LTQuMTI4LTIuNDQ4LS4wMi4wMTExLjAwOC0uMDIzMSA2LjMyNC0zLjUxNi4wMzYtMi41MDgtMi4xNDgtLjAyNC0uMDI0IDEuMzJ6TTUuNjY0IDIyLjcwNGwxLjk5MiAxLjE4OGguMDZsNC4xNTItMi4zMjgtMi4wMTYtMS4yMTItNC4xODggMi4zNTJ6bTEzLjY4LTEyLjAyNGMtLjc1NTUgMC0xLjM2OC42MTI1LTEuMzY4IDEuMzY4IDAgLjc1NTUuNjEyNSAxLjM2OCAxLjM2OCAxLjM2OC43NTU2IDAgMS4zNjgtLjYxMjUgMS4zNjgtMS4zNjggMC0uNzU1NS0uNjEyNC0xLjM2OC0xLjM2OC0xLjM2OHpNNC42NTYgMTMuMjI0Yy43NTU1IDAgMS4zNjgtLjYxMjUgMS4zNjgtMS4zNjggMC0uNzU1Ni0uNjEyNS0xLjM2OC0xLjM2OC0xLjM2OC0uNzU1NiAwLTEuMzY4LjYxMjQtMS4zNjggMS4zNjggMCAuNzU1NS42MTI0IDEuMzY4IDEuMzY4IDEuMzY4em03LjQxNi01LjAwNGMtLjc1NTUgMC0xLjM2OC42MTI1LTEuMzY4IDEuMzY4IDAgLjc1NTYuNjEyNSAxLjM2OCAxLjM2OCAxLjM2OHMxLjM2OC0uNjEyNCAxLjM2OC0xLjM2OGMwLS43NTU1LS42MTI1LTEuMzY4LTEuMzY4LTEuMzY4em0tLjEwOCA0LjgxMmMtLjc1NTUgMC0xLjM2OC42MTI1LTEuMzY4IDEuMzY4cy42MTI1IDEuMzY4IDEuMzY4IDEuMzY4Yy43NTU1IDAgMS4zNjgtLjYxMjUgMS4zNjgtMS4zNjhzLS42MTI1LTEuMzY4LTEuMzY4LTEuMzY4eiIvPjwvc3ZnPg==`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_dataflow",
+  "fileId": "dataflow_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "dataflow_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "dataflow_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIERhdGFmbG93PC90aXRsZT48cGF0aCBkPSJNNS44NTYgOS42IDMuNzIgOS41NjRsLjAzNi0yLjQ2IDYuMzEyLTMuNTE2TDUuOTQgMS4xNCA4LjAyOCAwbDQuMDkyIDIuNDM2aC4wMTJMMTYuMjg0LjEwOGguMDZsMS45OTIgMS4xODgtNC4xODggMi4zNTIgNi4xNjggMy42ODR2Mi40NmwtMi4xMjQtLjAzNi4wMTItMS4yODRMMTMuMTE2IDUuNGwtLjAyNCAyLjA3Ni0xLjIyNC0uMDEydi0uMDAyMmwtLjg0LS4wMDk4LjAyNC0yLjA3Ni01LjE3MiAyLjk0TDUuODU2IDkuNnptMTIuMjUyIDYuMDcyLTUuMTYgMi45NC4wMjQtMi4wNjQtMi4wNjQtLjAyNC0uMDI0IDIuMDY0LTUuMS0zLjA3Mi4wMTItMS4yNDhIMy42ODR2Mi40bDYuMTY4IDMuNjg0IDIuMDExMSAxLjE5NzEuMDA1LjAxNDlMMTUuOTcyIDI0aC4wNmwyLjAyOC0xLjE0LTQuMTI4LTIuNDQ4LS4wMi4wMTExLjAwOC0uMDIzMSA2LjMyNC0zLjUxNi4wMzYtMi41MDgtMi4xNDgtLjAyNC0uMDI0IDEuMzJ6TTUuNjY0IDIyLjcwNGwxLjk5MiAxLjE4OGguMDZsNC4xNTItMi4zMjgtMi4wMTYtMS4yMTItNC4xODggMi4zNTJ6bTEzLjY4LTEyLjAyNGMtLjc1NTUgMC0xLjM2OC42MTI1LTEuMzY4IDEuMzY4IDAgLjc1NTUuNjEyNSAxLjM2OCAxLjM2OCAxLjM2OC43NTU2IDAgMS4zNjgtLjYxMjUgMS4zNjgtMS4zNjggMC0uNzU1NS0uNjEyNC0xLjM2OC0xLjM2OC0xLjM2OHpNNC42NTYgMTMuMjI0Yy43NTU1IDAgMS4zNjgtLjYxMjUgMS4zNjgtMS4zNjggMC0uNzU1Ni0uNjEyNS0xLjM2OC0xLjM2OC0xLjM2OC0uNzU1NiAwLTEuMzY4LjYxMjQtMS4zNjggMS4zNjggMCAuNzU1NS42MTI0IDEuMzY4IDEuMzY4IDEuMzY4em03LjQxNi01LjAwNGMtLjc1NTUgMC0xLjM2OC42MTI1LTEuMzY4IDEuMzY4IDAgLjc1NTYuNjEyNSAxLjM2OCAxLjM2OCAxLjM2OHMxLjM2OC0uNjEyNCAxLjM2OC0xLjM2OGMwLS43NTU1LS42MTI1LTEuMzY4LTEuMzY4LTEuMzY4em0tLjEwOCA0LjgxMmMtLjc1NTUgMC0xLjM2OC42MTI1LTEuMzY4IDEuMzY4cy42MTI1IDEuMzY4IDEuMzY4IDEuMzY4Yy43NTU1IDAgMS4zNjgtLjYxMjUgMS4zNjgtMS4zNjhzLS42MTI1LTEuMzY4LTEuMzY4LTEuMzY4eiIvPjwvc3ZnPg==",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```
+
+---
+
+## Vertex AI
+
+- **fileId**: `vertex_ai_logo`
+- **mimeType**: `image/svg+xml`
+- **brand_color**: `#4285F4`
+- **recommended_size**: 48x48 (logo-flow) / 24x24 (in containers)
+- **source_slug**: `googlegemini` (Vertex AI uses Gemini branding)
+
+### dataURL
+
+`data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIEdlbWluaTwvdGl0bGU+PHBhdGggZD0iTTExLjA0IDE5LjMyUTEyIDIxLjUxIDEyIDI0cTAtMi40OS45My00LjY4Ljk2LTIuMTkgMi41OC0zLjgxdDMuODEtMi41NVEyMS41MSAxMiAyNCAxMnEtMi40OSAwLTQuNjgtLjkzYTEyLjMgMTIuMyAwIDAgMS0zLjgxLTIuNTggMTIuMyAxMi4zIDAgMCAxLTIuNTgtMy44MVExMiAyLjQ5IDEyIDBxMCAyLjQ5LS45NiA0LjY4LS45MyAyLjE5LTIuNTUgMy44MWExMi4zIDEyLjMgMCAwIDEtMy44MSAyLjU4UTIuNDkgMTIgMCAxMnEyLjQ5IDAgNC42OC45NiAyLjE5LjkzIDMuODEgMi41NXQyLjU1IDMuODEiLz48L3N2Zz4=`
+
+### Excalidraw Element Template
+
+```json
+{
+  "type": "image",
+  "id": "logo_vertex_ai",
+  "fileId": "vertex_ai_logo",
+  "width": 48,
+  "height": 48,
+  "scale": [1, 1],
+  "roughness": 0,
+  "opacity": 100,
+  "angle": 0,
+  "strokeColor": "#000000",
+  "backgroundColor": "transparent",
+  "fillStyle": "solid",
+  "strokeWidth": 1,
+  "strokeStyle": "solid",
+  "groupIds": [],
+  "roundness": null,
+  "isDeleted": false,
+  "link": null,
+  "locked": false
+}
+```
+
+### Files Entry
+
+```json
+{
+  "vertex_ai_logo": {
+    "mimeType": "image/svg+xml",
+    "id": "vertex_ai_logo",
+    "dataURL": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDI4NUY0IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R29vZ2xlIEdlbWluaTwvdGl0bGU+PHBhdGggZD0iTTExLjA0IDE5LjMyUTEyIDIxLjUxIDEyIDI0cTAtMi40OS45My00LjY4Ljk2LTIuMTkgMi41OC0zLjgxdDMuODEtMi41NVEyMS41MSAxMiAyNCAxMnEtMi40OSAwLTQuNjgtLjkzYTEyLjMgMTIuMyAwIDAgMS0zLjgxLTIuNTggMTIuMyAxMi4zIDAgMCAxLTIuNTgtMy44MVExMiAyLjQ5IDEyIDBxMCAyLjQ5LS45NiA0LjY4LS45MyAyLjE5LTIuNTUgMy44MWExMi4zIDEyLjMgMCAwIDEtMy44MSAyLjU4UTIuNDkgMTIgMCAxMnEyLjQ5IDAgNC42OC45NiAyLjE5LjkzIDMuODEgMi41NXQyLjU1IDMuODEiLz48L3N2Zz4=",
+    "created": 1706745600000,
+    "lastRetrieved": 1706745600000
+  }
+}
+```

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/.mcp.schema.json",
+  "_comment": "MCP servers for this project. Set API keys in environment variables. Servers marked [FREE] need no API key.",
+  "mcpServers": {
+    "context7": {
+      "_comment": "[FREE] Up-to-date, version-specific library documentation injected into context",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "sequential-thinking": {
+      "_comment": "[FREE] Enhanced complex problem decomposition -- debugging, migrations, architecture decisions",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "memory": {
+      "_comment": "[FREE] Persistent memory across sessions via knowledge graph -- remembers user preferences and context",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "fetch": {
+      "_comment": "[FREE] Fetch web content and convert HTML to markdown for LLM consumption",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    },
+    "playwright": {
+      "_comment": "[FREE] Browser automation and E2E testing via accessibility snapshots",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "github": {
+      "_comment": "[FREE TOKEN] GitHub repo management: PRs, issues, CI/CD -- requires GITHUB_TOKEN (free at github.com/settings/tokens)",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "brave-search": {
+      "_comment": "[FREE TIER] Web search via Brave API -- 2000 queries/month free at brave.com/search/api/",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    }
+  }
+}
