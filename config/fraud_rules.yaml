@@ -1,0 +1,45 @@
+# Fraud Detection Rules Configuration
+# Each rule produces a score between 0.0 and 1.0
+# Final fraud_score = weighted average of triggered rules
+# Alert threshold: fraud_score > 0.7
+
+rules:
+  FR-001:
+    name: High Value
+    description: "Transaction amount > multiplier * customer average"
+    enabled: true
+    multiplier: 3.0
+    min_transactions: 5
+    weight: 0.30
+
+  FR-002:
+    name: Velocity
+    description: "Too many transactions in a short time window"
+    enabled: true
+    max_count: 5
+    window_minutes: 10
+    weight: 0.25
+
+  FR-003:
+    name: Geographic Anomaly
+    description: "Impossible travel — transaction too far from last location given time delta"
+    enabled: true
+    max_distance_km: 500
+    max_time_hours: 1
+    weight: 0.20
+
+  FR-004:
+    name: Time Anomaly
+    description: "Transaction at unusual hour for customer"
+    enabled: true
+    std_dev_threshold: 2.0
+    weight: 0.15
+
+  FR-005:
+    name: Blacklist
+    description: "Customer or store on known fraud blacklist"
+    enabled: true
+    refresh_interval_seconds: 300
+    weight: 0.10
+
+alert_threshold: 0.7

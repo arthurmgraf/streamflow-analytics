@@ -1,0 +1,90 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: streamflow-alerts
+  namespace: streamflow-monitoring
+  labels:
+    app: streamflow
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: streamflow.kafka
+      rules:
+        - alert: KafkaConsumerLagHigh
+          expr: kafka_consumergroup_lag_sum > 10000
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Kafka consumer lag is high"
+            description: "Consumer group {{ $labels.consumergroup }} has lag of {{ $value }}"
+
+        - alert: KafkaBrokerDown
+          expr: up{job="kafka-metrics"} == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Kafka broker is down"
+
+    - name: streamflow.flink
+      rules:
+        - alert: FlinkJobFailed
+          expr: flink_jobmanager_job_uptime == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Flink job {{ $labels.job_name }} has failed"
+
+        - alert: FlinkCheckpointFailing
+          expr: increase(flink_jobmanager_job_lastCheckpointDuration[10m]) == 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Flink checkpoints are not completing"
+
+        - alert: FlinkJobRestartsTooHigh
+          expr: increase(flink_jobmanager_job_numRestarts[1h]) > 3
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Flink job restarting too frequently"
+
+    - name: streamflow.postgres
+      rules:
+        - alert: PostgreSQLDown
+          expr: up{job="postgresql-metrics"} == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "PostgreSQL is down"
+
+        - alert: PostgreSQLDiskUsageHigh
+          expr: pg_database_size_bytes / (1024*1024*1024) > 8
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "PostgreSQL database size exceeding 8GB"
+
+    - name: streamflow.fraud
+      rules:
+        - alert: FraudRateSpike
+          expr: rate(streamflow_fraud_alerts_total[5m]) / rate(streamflow_transactions_total[5m]) > 0.10
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Fraud rate exceeds 10%"
+
+        - alert: NoTransactionsProcessed
+          expr: rate(streamflow_transactions_total[15m]) == 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "No transactions processed in 15 minutes"

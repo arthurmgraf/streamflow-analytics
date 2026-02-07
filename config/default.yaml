@@ -1,0 +1,51 @@
+project:
+  name: streamflow-analytics
+  version: 0.1.0
+
+kafka:
+  bootstrap_servers: "streamflow-kafka-bootstrap.streamflow-kafka.svc.cluster.local:9092"
+  topics:
+    transactions: "transactions.raw"
+    fraud_alerts: "fraud.alerts"
+    metrics: "metrics.realtime"
+
+postgres:
+  host: "streamflow-pg-rw.streamflow-data.svc.cluster.local"
+  port: 5432
+  database: "streamflow"
+  user: "streamflow"
+
+flink:
+  checkpoint_interval_ms: 60000
+  parallelism: 2
+
+fraud_rules:
+  high_value:
+    enabled: true
+    multiplier: 3.0
+    min_transactions: 5
+  velocity:
+    enabled: true
+    max_count: 5
+    window_minutes: 10
+  geographic:
+    enabled: true
+    max_distance_km: 500
+    max_time_hours: 1
+  time_anomaly:
+    enabled: true
+    std_dev_threshold: 2.0
+  blacklist:
+    enabled: true
+    refresh_interval_seconds: 300
+
+generator:
+  events_per_second: 100
+  fraud_rate: 0.02
+  num_customers: 1000
+  num_stores: 10
+  num_products: 50
+
+logging:
+  level: INFO
+  json_output: true

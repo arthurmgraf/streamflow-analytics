@@ -1,0 +1,32 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: fraud-detector
+  namespace: streamflow-processing
+spec:
+  image: flink:1.20-java17
+  flinkVersion: v1_20
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+    state.checkpoints.dir: file:///opt/flink/checkpoints
+    state.savepoints.dir: file:///opt/flink/savepoints
+    execution.checkpointing.interval: "60000"
+    state.backend: hashmap
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: "512Mi"
+      cpu: 0.1
+  taskManager:
+    resource:
+      memory: "768Mi"
+      cpu: 0.2
+    replicas: 1
+  job:
+    jarURI: local:///opt/flink/usrlib/streamflow-jobs.jar
+    entryClass: org.apache.flink.client.python.PythonDriver
+    args:
+      - "-py"
+      - "/opt/flink/usrlib/fraud_detector.py"
+    parallelism: 2
+    upgradeMode: stateless

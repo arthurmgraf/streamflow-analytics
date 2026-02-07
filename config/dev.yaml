@@ -1,0 +1,27 @@
+project:
+  env: dev
+
+kafka:
+  bootstrap_servers: "localhost:9092"
+
+postgres:
+  host: "localhost"
+  port: 5432
+  database: "streamflow"
+  user: "streamflow"
+  password: "${POSTGRES_PASSWORD:-changeme}"
+
+flink:
+  checkpoint_interval_ms: 30000
+  parallelism: 1
+
+generator:
+  events_per_second: 10
+  fraud_rate: 0.05
+  num_customers: 100
+  num_stores: 5
+  num_products: 20
+
+logging:
+  level: DEBUG
+  json_output: false

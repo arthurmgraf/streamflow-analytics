@@ -1,0 +1,114 @@
+# ---------------------------------------------------------------------------
+# StreamFlow Analytics - Airflow Helm Values Override
+# Optimized for K3s single-node deployment with LocalExecutor
+# ---------------------------------------------------------------------------
+
+# Executor: LocalExecutor runs tasks in the scheduler process (no workers needed)
+executor: "LocalExecutor"
+
+# ---------------------------------------------------------------------------
+# Webserver
+# ---------------------------------------------------------------------------
+webserver:
+  replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+  defaultUser:
+    enabled: true
+    role: Admin
+    username: admin
+    email: admin@streamflow.local
+    firstName: StreamFlow
+    lastName: Admin
+    password: admin
+
+# ---------------------------------------------------------------------------
+# Scheduler
+# ---------------------------------------------------------------------------
+scheduler:
+  replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+# ---------------------------------------------------------------------------
+# Triggerer (disabled - not needed for basic DAGs)
+# ---------------------------------------------------------------------------
+triggerer:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# Flower (disabled - only used with CeleryExecutor)
+# ---------------------------------------------------------------------------
+flower:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# PgBouncer (disabled - not needed for single-node)
+# ---------------------------------------------------------------------------
+pgbouncer:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# Workers (disabled - LocalExecutor runs tasks in the scheduler)
+# ---------------------------------------------------------------------------
+workers:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# DAGs configuration
+# ---------------------------------------------------------------------------
+dags:
+  persistence:
+    enabled: false
+  gitSync:
+    enabled: false
+
+# ---------------------------------------------------------------------------
+# Internal PostgreSQL (metadata database)
+# ---------------------------------------------------------------------------
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "airflow"
+    username: "airflow"
+    password: "airflow"
+    database: "airflow"
+  primary:
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "250m"
+        memory: "256Mi"
+    persistence:
+      size: "5Gi"
+
+# ---------------------------------------------------------------------------
+# Redis (disabled - only needed for CeleryExecutor)
+# ---------------------------------------------------------------------------
+redis:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# StatsD (disabled to save resources)
+# ---------------------------------------------------------------------------
+statsd:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# Logs
+# ---------------------------------------------------------------------------
+logs:
+  persistence:
+    enabled: false

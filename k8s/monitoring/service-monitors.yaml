@@ -1,0 +1,59 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kafka-metrics
+  namespace: streamflow-monitoring
+  labels:
+    app: streamflow
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+      - streamflow-kafka
+  selector:
+    matchLabels:
+      strimzi.io/cluster: streamflow
+  endpoints:
+    - port: tcp-prometheus
+      interval: 30s
+      path: /metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flink-metrics
+  namespace: streamflow-monitoring
+  labels:
+    app: streamflow
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+      - streamflow-processing
+  selector:
+    matchLabels:
+      app: flink
+  endpoints:
+    - port: metrics
+      interval: 15s
+      path: /metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: postgresql-metrics
+  namespace: streamflow-monitoring
+  labels:
+    app: streamflow
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+      - streamflow-data
+  selector:
+    matchLabels:
+      cnpg.io/cluster: streamflow-pg
+  endpoints:
+    - port: metrics
+      interval: 30s

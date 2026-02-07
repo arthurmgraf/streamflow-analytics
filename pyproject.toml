@@ -3,16 +3,16 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "{{project-name}}"
+name = "streamflow-analytics"
 version = "0.1.0"
-description = "{{PROJECT_DESCRIPTION}}"
+description = "Real-time streaming data platform for e-commerce fraud detection"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [
-    {name = "{{AUTHOR_NAME}}", email = "{{AUTHOR_EMAIL}}"}
+    {name = "Arthur Maia Graf"}
 ]
-keywords = []
+keywords = ["streaming", "fraud-detection", "kafka", "flink", "data-engineering"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -21,9 +21,10 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-    # Add your project dependencies here
-    # "pydantic>=2.0.0",
-    # "httpx>=0.25.0",
+    "pydantic>=2.6.0",
+    "pyyaml>=6.0",
+    "psycopg2-binary>=2.9.9",
+    "confluent-kafka>=2.3.0",
 ]
 
 [project.optional-dependencies]
@@ -31,39 +32,70 @@ dev = [
     "pytest>=8.0.0",
     "pytest-cov>=4.0.0",
     "pytest-mock>=3.12.0",
-    "ruff>=0.1.0",
+    "ruff>=0.4.0",
+    "mypy>=1.9.0",
+    "pre-commit>=3.7.0",
+    "types-PyYAML>=6.0",
+    "types-psycopg2>=2.9",
+]
+flink = [
+    "apache-flink>=1.20.0",
+]
+airflow = [
+    "apache-airflow>=2.10.0",
+    "apache-airflow-providers-postgres>=5.10.0",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
 
-[tool.hatch.build.targets.sdist]
-include = [
-    "/src",
-]
-
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "N", "RUF"]
 ignore = ["E501"]
 
-[tool.ruff.isort]
-known-first-party = ["src", "tests"]
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
 
 [tool.pytest.ini_options]
-testpaths = ["src/tests", "tests"]
+testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
-pythonpath = ["src"]
+markers = [
+    "e2e: end-to-end tests requiring running K3s cluster",
+]
+pythonpath = [".", "src"]
 
 [tool.coverage.run]
 source = ["src"]
 branch = true
+omit = ["tests/*", "src/dags/*"]
 
 [tool.coverage.report]
+show_missing = true
+fail_under = 80
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
+    "if __name__",
 ]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+exclude = ["tests/", "src/dags/"]
+
+[[tool.mypy.overrides]]
+module = [
+    "confluent_kafka.*",
+    "pyflink.*",
+    "airflow.*",
+]
+ignore_missing_imports = true

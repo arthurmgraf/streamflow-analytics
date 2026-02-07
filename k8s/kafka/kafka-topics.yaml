@@ -1,0 +1,43 @@
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: transactions.raw
+  namespace: streamflow-kafka
+  labels:
+    strimzi.io/cluster: streamflow
+spec:
+  partitions: 3
+  replicas: 1
+  config:
+    retention.ms: "604800000"       # 7 days
+    cleanup.policy: delete
+    segment.bytes: "104857600"      # 100MB segments
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: fraud.alerts
+  namespace: streamflow-kafka
+  labels:
+    strimzi.io/cluster: streamflow
+spec:
+  partitions: 1
+  replicas: 1
+  config:
+    retention.ms: "2592000000"      # 30 days
+    cleanup.policy: delete
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: metrics.realtime
+  namespace: streamflow-kafka
+  labels:
+    strimzi.io/cluster: streamflow
+spec:
+  partitions: 1
+  replicas: 1
+  config:
+    retention.ms: "86400000"        # 1 day
+    cleanup.policy: delete
