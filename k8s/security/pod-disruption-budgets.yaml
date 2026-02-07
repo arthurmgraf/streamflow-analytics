@@ -1,0 +1,36 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: kafka-pdb
+  namespace: streamflow-kafka
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      strimzi.io/cluster: streamflow
+      strimzi.io/kind: Kafka
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: postgresql-pdb
+  namespace: streamflow-data
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      cnpg.io/cluster: streamflow-pg
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: flink-jobmanager-pdb
+  namespace: streamflow-processing
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      component: jobmanager

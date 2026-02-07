@@ -1,0 +1,107 @@
+---
+# Default deny all ingress in processing namespace
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: streamflow-processing
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+
+---
+# Allow Flink TaskManagers to communicate with JobManager
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-flink-internal
+  namespace: streamflow-processing
+spec:
+  podSelector:
+    matchLabels:
+      app: flink
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: flink
+      ports:
+        - port: 6123
+          protocol: TCP
+        - port: 6124
+          protocol: TCP
+  policyTypes:
+    - Ingress
+
+---
+# Allow Prometheus scraping from monitoring namespace
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scrape
+  namespace: streamflow-processing
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: streamflow-monitoring
+      ports:
+        - port: 9249
+          protocol: TCP
+  policyTypes:
+    - Ingress
+
+---
+# Kafka namespace: allow traffic from processing + orchestration
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-kafka-clients
+  namespace: streamflow-kafka
+spec:
+  podSelector:
+    matchLabels:
+      strimzi.io/cluster: streamflow
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: streamflow-processing
+        - namespaceSelector:
+            matchLabels:
+              name: streamflow-orchestration
+      ports:
+        - port: 9092
+          protocol: TCP
+        - port: 9093
+          protocol: TCP
+  policyTypes:
+    - Ingress
+
+---
+# PostgreSQL namespace: allow traffic from processing + orchestration
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-postgres-clients
+  namespace: streamflow-data
+spec:
+  podSelector:
+    matchLabels:
+      cnpg.io/cluster: streamflow-pg
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: streamflow-processing
+        - namespaceSelector:
+            matchLabels:
+              name: streamflow-orchestration
+      ports:
+        - port: 5432
+          protocol: TCP
+  policyTypes:
+    - Ingress

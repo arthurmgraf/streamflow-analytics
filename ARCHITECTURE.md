@@ -229,6 +229,100 @@
 
 ---
 
+### ADR-008: KeyedProcessFunction + RocksDB State
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-07 |
+
+**Context:** Fraud detection requires per-customer state (statistics, location, velocity). Original implementation used Python dicts (lost on restart).
+
+**Decision:** Use Flink `KeyedProcessFunction` with `ValueState<bytes>` backed by RocksDB. Serialization via `to_bytes()`/`from_bytes()` on `CustomerFraudState`.
+
+**Rationale:**
+- Fault-tolerant state that survives job restarts
+- EXACTLY_ONCE checkpointing guarantees no duplicate alerts
+- Savepoint-based upgrades (no state loss during deployments)
+- Contract tests ensure serialization compatibility
+
+---
+
+### ADR-009: ML Integration (Offline Training, Online Scoring)
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-07 |
+
+**Context:** Rule-based fraud detection has inherent limitations. ML can capture non-linear patterns.
+
+**Decision:** Isolation Forest model trained offline (`scripts/train_model.py`), loaded in Flink `open()`, scored per-event with alpha blending.
+
+**Rationale:**
+- Unsupervised algorithm — no labeled data needed
+- 6-feature vector extracted from existing state (no new data sources)
+- Alpha blending: `score = alpha * ml + (1-alpha) * rules` allows gradual rollout
+- Graceful degradation: if model unavailable, rules-only scoring continues
+
+---
+
+### ADR-010: Dead Letter Queue for Error Handling
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-07 |
+
+**Context:** Malformed events were silently dropped with `logger.warning + return None`.
+
+**Decision:** Route invalid events to `streamflow.dlq` Kafka topic with full error metadata.
+
+**Rationale:**
+- Never lose data — every event is either processed or captured in DLQ
+- DLQ records include: original event (truncated to 10KB), error type/message, source topic, schema version
+- Forward-compatible schema parsing for rolling upgrades
+
+---
+
+### ADR-011: ArgoCD GitOps Deployment
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-07 |
+
+**Context:** Manual `kubectl apply` deployments are error-prone and non-auditable.
+
+**Decision:** ArgoCD Application with auto-sync, self-heal, and prune enabled.
+
+**Rationale:**
+- Git is the single source of truth (audit trail for free)
+- Auto-sync on push to main branch
+- Self-heal corrects manual drift
+- Kustomize-based resource management
+
+---
+
+### ADR-012: SLO-Based Monitoring with Error Budgets
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-07 |
+
+**Context:** Alert rules alone don't communicate service reliability targets.
+
+**Decision:** Define 5 SLOs with Prometheus recording rules and error budget alerting.
+
+**Rationale:**
+- 99.5% availability target with monthly error budget tracking
+- p99 latency < 5s, data freshness < 5 min
+- Error budget burn rate alerts before SLO breach
+- Google SRE best practices applied to data engineering
+
+---
+
 ## Data Flow
 
 ### Streaming Path (Real-time, < 30s latency)
@@ -247,20 +341,23 @@
         │
 3a. TRANSACTION PROCESSING (Flink Job 1)
     [src/flink_jobs/transaction_processor.py]
-    ├── Deserialize JSON → validate schema
-    ├── Add processing metadata (ingested_at, source)
-    └── JDBC Sink → bronze.raw_transactions
+    ├── Deserialize JSON → validate schema (version-aware)
+    ├── Valid → Add processing metadata → JDBC Sink → bronze.raw_transactions
+    └── Invalid → DLQ record → Kafka Sink → streamflow.dlq
         │
 3b. FRAUD DETECTION (Flink Job 2)
-    [src/flink_jobs/fraud_detector.py]
+    [src/flink_jobs/fraud_detector_function.py — KeyedProcessFunction]
     ├── Deserialize JSON → extract fields
-    ├── Evaluate 5 rules (keyed by customer_id):
-    │   ├── FR-001: High Value (amount vs customer average)
-    │   ├── FR-002: Velocity (count in time window)
+    ├── Load CustomerFraudState from RocksDB ValueState
+    ├── Evaluate 5 rules + ML score (keyed by customer_id):
+    │   ├── FR-001: High Value (Welford's algorithm)
+    │   ├── FR-002: Velocity (sliding window)
     │   ├── FR-003: Geographic (haversine impossible travel)
     │   ├── FR-004: Time Anomaly (z-score of hour)
-    │   └── FR-005: Blacklist (customer/store lookup)
-    ├── Compute weighted score
+    │   ├── FR-005: Blacklist (customer/store lookup)
+    │   └── FR-006: ML Anomaly (Isolation Forest, 6-feature vector)
+    ├── Compute weighted score: alpha * ml + (1-alpha) * rules
+    ├── Persist updated state to RocksDB (EXACTLY_ONCE checkpointing)
     ├── If score >= 0.7 → produce FraudAlert to fraud.alerts
     └── JDBC Sink → bronze.raw_fraud_alerts
 ```
@@ -327,6 +424,11 @@ Post-Terraform:
 | Git | `.env.local` and `terraform.tfstate` are gitignored |
 | Logs | No PII — transaction amounts logged, customer names/emails are not |
 | RBAC | Single namespace admin per streamflow-* namespace |
+| Pod Security | runAsNonRoot, runAsUser: 9999, capabilities: drop ALL |
+| Network Isolation | 5 NetworkPolicies: default-deny + allow-lists per namespace |
+| Disruption Budget | PDBs for Kafka, PostgreSQL, Flink JobManager |
+| CI Security | pip-audit dependency scanning, kubeval manifest validation |
+| GitOps | ArgoCD auto-sync with self-heal (drift protection) |
 
 ---
 
@@ -336,8 +438,10 @@ Post-Terraform:
 |--------|---------------|
 | **Logging** | Structured JSON via Python `logging`. All components log to stdout (K8s collects). |
 | **Metrics** | Prometheus scrapes: Kafka (JMX exporter), Flink (prometheus reporter), PG (postgres_exporter), Airflow (StatsD) |
+| **Business Metrics** | MetricsCollector: counters, gauges, histograms, timer for business KPIs |
 | **Dashboards** | 4 Grafana dashboards provisioned via ConfigMap |
 | **Alerting** | AlertManager with 9 rules across Kafka, Flink, PG, and fraud detection |
+| **SLOs** | 5 SLO definitions: availability (99.5%), latency (p99<5s), freshness (<5min), error budget, fraud detection (p95<2s) |
 
 ---
 

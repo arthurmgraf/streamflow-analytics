@@ -3,6 +3,10 @@ kind: FlinkDeployment
 metadata:
   name: realtime-aggregator
   namespace: streamflow-processing
+  labels:
+    app: flink
+    component: realtime-aggregator
+    app.kubernetes.io/part-of: streamflow
 spec:
   image: flink:1.20-java17
   flinkVersion: v1_20
@@ -10,7 +14,28 @@ spec:
     taskmanager.numberOfTaskSlots: "2"
     state.checkpoints.dir: file:///opt/flink/checkpoints
     execution.checkpointing.interval: "30000"
+    execution.checkpointing.mode: EXACTLY_ONCE
+    state.backend: rocksdb
+    restart-strategy.type: exponential-delay
+    restart-strategy.exponential-delay.initial-backoff: "10s"
+    restart-strategy.exponential-delay.max-backoff: "2min"
+    metrics.reporters: prom
+    metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
+    metrics.reporter.prom.port: "9249"
   serviceAccount: flink
+  podTemplate:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 9999
+        fsGroup: 9999
+      containers:
+        - name: flink-main-container
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
   jobManager:
     resource:
       memory: "512Mi"
@@ -27,4 +52,4 @@ spec:
       - "-py"
       - "/opt/flink/usrlib/realtime_aggregator.py"
     parallelism: 1
-    upgradeMode: stateless
+    upgradeMode: savepoint

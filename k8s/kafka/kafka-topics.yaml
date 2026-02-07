@@ -41,3 +41,17 @@ spec:
   config:
     retention.ms: "86400000"        # 1 day
     cleanup.policy: delete
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: streamflow.dlq
+  namespace: streamflow-kafka
+  labels:
+    strimzi.io/cluster: streamflow
+spec:
+  partitions: 1
+  replicas: 1
+  config:
+    retention.ms: "2592000000"      # 30 days
+    cleanup.policy: delete

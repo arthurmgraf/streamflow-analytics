@@ -1,4 +1,8 @@
-"""Kafka SerDe utilities for PyFlink jobs."""
+"""Kafka SerDe utilities for PyFlink jobs.
+
+Supports schema versioning for forward-compatible event parsing.
+Unknown schema versions are parsed with best-effort (log warning, attempt parse).
+"""
 
 from __future__ import annotations
 
@@ -11,14 +15,27 @@ from src.models.transaction import Transaction
 
 logger = logging.getLogger(__name__)
 
+CURRENT_SCHEMA_VERSION = 1
+
 
 def deserialize_transaction(raw: str) -> Transaction | None:
     """Deserialize JSON string to Transaction model.
 
-    Returns None for malformed events (skip + log strategy).
+    Supports schema versioning:
+        - v1 (current): Standard Transaction fields
+        - Unknown versions: Best-effort parse with warning
+
+    Returns None for malformed events.
     """
     try:
         data: dict[str, Any] = json.loads(raw)
+        version = data.pop("schema_version", CURRENT_SCHEMA_VERSION)
+        if version > CURRENT_SCHEMA_VERSION:
+            logger.warning(
+                "Unknown schema version %d (current=%d), attempting parse",
+                version,
+                CURRENT_SCHEMA_VERSION,
+            )
         return Transaction(**data)
     except (json.JSONDecodeError, ValueError):
         logger.warning("Failed to deserialize transaction: %s", raw[:200])

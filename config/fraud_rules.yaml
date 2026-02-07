@@ -42,4 +42,23 @@ rules:
     refresh_interval_seconds: 300
     weight: 0.10
 
+  FR-006:
+    name: ML Anomaly
+    description: "Isolation Forest anomaly detection score"
+    enabled: true
+    model_path: "models/fraud_model.joblib"
+    weight: 0.20
+    alpha: 0.3  # weight of ML score in final: alpha*ML + (1-alpha)*rules
+
 alert_threshold: 0.7
+
+# Flink runtime configuration
+flink:
+  checkpoint_interval_ms: 60000
+  checkpoint_mode: EXACTLY_ONCE
+  state_backend: rocksdb
+  parallelism: 2
+  restart_strategy:
+    type: fixed-delay
+    attempts: 3
+    delay_ms: 10000

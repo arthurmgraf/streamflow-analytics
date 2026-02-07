@@ -3,6 +3,10 @@ kind: FlinkDeployment
 metadata:
   name: transaction-processor
   namespace: streamflow-processing
+  labels:
+    app: flink
+    component: transaction-processor
+    app.kubernetes.io/part-of: streamflow
 spec:
   image: flink:1.20-java17
   flinkVersion: v1_20
@@ -11,7 +15,28 @@ spec:
     state.checkpoints.dir: file:///opt/flink/checkpoints
     state.savepoints.dir: file:///opt/flink/savepoints
     execution.checkpointing.interval: "60000"
+    execution.checkpointing.mode: EXACTLY_ONCE
+    state.backend: rocksdb
+    restart-strategy.type: exponential-delay
+    restart-strategy.exponential-delay.initial-backoff: "10s"
+    restart-strategy.exponential-delay.max-backoff: "2min"
+    metrics.reporters: prom
+    metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
+    metrics.reporter.prom.port: "9249"
   serviceAccount: flink
+  podTemplate:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 9999
+        fsGroup: 9999
+      containers:
+        - name: flink-main-container
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
   jobManager:
     resource:
       memory: "512Mi"
@@ -28,4 +53,4 @@ spec:
       - "-py"
       - "/opt/flink/usrlib/transaction_processor.py"
     parallelism: 2
-    upgradeMode: stateless
+    upgradeMode: savepoint

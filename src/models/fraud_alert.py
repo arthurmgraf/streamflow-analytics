@@ -17,6 +17,7 @@ class FraudRuleId(StrEnum):
     GEOGRAPHIC = "FR-003"
     TIME_ANOMALY = "FR-004"
     BLACKLIST = "FR-005"
+    ML_ANOMALY = "FR-006"
 
 
 class FraudAlert(BaseModel):

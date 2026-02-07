@@ -1,0 +1,94 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: streamflow-slos
+  namespace: streamflow-monitoring
+  labels:
+    app: streamflow
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: streamflow.slo.availability
+      rules:
+        # SLO: 99.5% of transactions processed within 5 seconds
+        - record: streamflow:slo:processing_success_rate:5m
+          expr: |
+            sum(rate(streamflow_transactions_processed_total{status="success"}[5m]))
+            /
+            sum(rate(streamflow_transactions_processed_total[5m]))
+
+        - alert: SLOProcessingAvailabilityBreach
+          expr: streamflow:slo:processing_success_rate:5m < 0.995
+          for: 10m
+          labels:
+            severity: critical
+            slo: availability
+          annotations:
+            summary: "Processing SLO breach: success rate {{ $value | humanizePercentage }}"
+            description: "Transaction processing success rate dropped below 99.5% SLO"
+
+    - name: streamflow.slo.latency
+      rules:
+        # SLO: p99 processing latency < 5s
+        - record: streamflow:slo:processing_latency_p99:5m
+          expr: |
+            histogram_quantile(0.99,
+              sum(rate(streamflow_processing_latency_seconds_bucket[5m])) by (le)
+            )
+
+        - alert: SLOLatencyBreach
+          expr: streamflow:slo:processing_latency_p99:5m > 5
+          for: 10m
+          labels:
+            severity: warning
+            slo: latency
+          annotations:
+            summary: "Latency SLO breach: p99 = {{ $value }}s"
+            description: "Processing p99 latency exceeded 5s SLO target"
+
+    - name: streamflow.slo.freshness
+      rules:
+        # SLO: data freshness < 5 minutes end-to-end
+        - alert: SLOFreshnessBreach
+          expr: |
+            (time() - max(streamflow_last_processed_timestamp)) > 300
+          for: 5m
+          labels:
+            severity: warning
+            slo: freshness
+          annotations:
+            summary: "Freshness SLO breach: no data processed in 5+ minutes"
+
+    - name: streamflow.slo.error_budget
+      rules:
+        # Monthly error budget: 0.5% = 21.6 minutes downtime
+        - record: streamflow:slo:error_budget_remaining:30d
+          expr: |
+            1 - (
+              (1 - avg_over_time(streamflow:slo:processing_success_rate:5m[30d]))
+              / 0.005
+            )
+
+        - alert: SLOErrorBudgetLow
+          expr: streamflow:slo:error_budget_remaining:30d < 0.25
+          for: 1h
+          labels:
+            severity: warning
+            slo: error_budget
+          annotations:
+            summary: "Error budget below 25% ({{ $value | humanizePercentage }} remaining)"
+
+    - name: streamflow.slo.fraud_detection
+      rules:
+        # SLO: fraud detection latency < 2s (p95)
+        - alert: SLOFraudDetectionSlow
+          expr: |
+            histogram_quantile(0.95,
+              sum(rate(streamflow_fraud_detection_latency_seconds_bucket[5m])) by (le)
+            ) > 2
+          for: 10m
+          labels:
+            severity: warning
+            slo: fraud_latency
+          annotations:
+            summary: "Fraud detection p95 latency > 2s"
