@@ -3,10 +3,28 @@
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+_ENV_VAR_PATTERN = re.compile(r"\$\{(\w+)(?::-(.*?))?\}")
+
+
+def _expand_env_vars(value: Any) -> Any:
+    """Expand ${VAR:-default} patterns in string values."""
+    if isinstance(value, str):
+        def _replace(match: re.Match[str]) -> str:
+            var_name = match.group(1)
+            default = match.group(2) if match.group(2) is not None else ""
+            return os.environ.get(var_name, default)
+        return _ENV_VAR_PATTERN.sub(_replace, value)
+    if isinstance(value, dict):
+        return {k: _expand_env_vars(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_expand_env_vars(item) for item in value]
+    return value
 
 
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
@@ -57,6 +75,9 @@ def load_config(
         with open(env_path) as f:
             env_config: dict[str, Any] = yaml.safe_load(f) or {}
         config = _deep_merge(config, env_config)
+
+    # Expand environment variables (${VAR:-default} syntax)
+    config = _expand_env_vars(config)
 
     # Inject environment name
     config.setdefault("project", {})

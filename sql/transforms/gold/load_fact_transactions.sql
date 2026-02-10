@@ -4,4 +4,4 @@ SELECT t.transaction_id, t.customer_id, t.store_id, t.amount, t.currency, t.paym
 FROM silver.clean_transactions t
 LEFT JOIN gold.fact_transactions f ON t.transaction_id = f.transaction_id
 WHERE f.transaction_id IS NULL
-  AND t.processed_at > NOW() - INTERVAL '2 hours';
+  AND t.cleaned_at > NOW() - INTERVAL '2 hours';

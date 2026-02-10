@@ -34,7 +34,7 @@ StreamFlow solves this with an event-driven streaming pipeline: transactions flo
 | End-to-End Latency | < 30 seconds |
 | Throughput | 10,000+ events/second |
 | Infrastructure Cost | $0 (on-premise K3s) |
-| Test Coverage | > 80% (208 tests) |
+| Test Coverage | > 80% (254 tests) |
 | Fraud Detection | 5 rules + ML (Isolation Forest) |
 | Deployment | ArgoCD GitOps with auto-sync |
 | Checkpointing | EXACTLY_ONCE with RocksDB |
@@ -204,7 +204,7 @@ All layers coexist as PostgreSQL schemas (not separate databases) — single con
 | **Monitoring** | Prometheus + Grafana | 4 dashboards, 9 alert rules, 5 SLOs |
 | **Security** | NetworkPolicies + PDBs | Namespace isolation, non-root pods |
 | **CI/CD** | GitHub Actions | Lint, typecheck, test matrix, security audit, K8s validation |
-| **Quality** | ruff + mypy --strict + pytest | Zero warnings, zero type errors, 208+ tests |
+| **Quality** | ruff + mypy --strict + pytest | Zero warnings, zero type errors, 254+ tests |
 
 ---
 
@@ -420,7 +420,7 @@ kubectl port-forward svc/argocd-server -n argocd 8443:443
 ## Testing
 
 ```bash
-# Full test suite (208 tests)
+# Full test suite (254 tests)
 make test
 
 # By category
@@ -441,9 +441,10 @@ make check              # lint + typecheck + test (all in one)
 
 | Category | Tests | Purpose |
 |----------|-------|---------|
-| **Unit** | 160+ | Individual function/class behavior |
+| **Unit** | 170+ | Individual function/class behavior + chaos tests |
 | **Contract** | 48 | Schema compatibility between producers/consumers |
 | **Integration** | 10 | Cross-module flows (Generator -> Engine -> Alert) |
+| **Chaos** | 34 | State corruption, extreme inputs, ML degradation |
 
 **Contract tests** guarantee that schema changes don't break downstream consumers. They validate:
 - Required fields and validation rules

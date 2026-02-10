@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from decimal import Decimal
 from enum import StrEnum
 
@@ -29,5 +29,5 @@ class Customer(BaseModel):
     avg_transaction_amt: Decimal = Field(default=Decimal("0"), ge=0)
     total_transactions: int = Field(default=0, ge=0)
     risk_profile: RiskProfile = Field(default=RiskProfile.NORMAL)
-    first_seen_at: datetime = Field(default_factory=datetime.now)
-    updated_at: datetime = Field(default_factory=datetime.now)
+    first_seen_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

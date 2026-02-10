@@ -21,9 +21,13 @@ Thank you for your interest in contributing to StreamFlow Analytics!
    pip install -e ".[dev]"
    ```
 
-4. Start infrastructure:
+4. Start infrastructure (requires K3s):
    ```bash
-   docker compose up -d  # Kafka, Flink, PostgreSQL
+   # Bootstrap K3s and deploy operators
+   bash scripts/setup.sh
+
+   # Deploy StreamFlow services
+   make deploy
    ```
 
 ## Code Standards
@@ -41,7 +45,10 @@ All code must pass linting, type checking, and tests before merge.
 # Unit tests
 pytest tests/unit/ -v
 
-# Integration tests (requires Docker infrastructure)
+# Contract tests
+pytest tests/contract/ -v
+
+# Integration tests
 pytest tests/integration/ -v -m integration
 
 # Full test suite with coverage
@@ -62,13 +69,13 @@ Minimum coverage threshold: 80%
 
 We use [Conventional Commits](https://www.conventionalcommits.org/):
 
-- `feat:` — New feature
-- `fix:` — Bug fix
-- `docs:` — Documentation only
-- `refactor:` — Code refactoring
-- `test:` — Adding or updating tests
-- `chore:` — Maintenance tasks
-- `infra:` — Infrastructure changes
+- `feat:` ï¿½ New feature
+- `fix:` ï¿½ Bug fix
+- `docs:` ï¿½ Documentation only
+- `refactor:` ï¿½ Code refactoring
+- `test:` ï¿½ Adding or updating tests
+- `chore:` ï¿½ Maintenance tasks
+- `infra:` ï¿½ Infrastructure changes
 
 ## Architecture Decision Records
 

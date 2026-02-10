@@ -7,8 +7,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+import yaml
 
-from src.utils.config import _deep_merge, load_config
+from src.utils.config import _deep_merge, _expand_env_vars, load_config
 
 
 class TestDeepMerge:
@@ -91,3 +92,50 @@ class TestLoadConfig:
         assert rules["high_value"]["enabled"] is True
         assert rules["high_value"]["multiplier"] == 3.0
         assert rules["velocity"]["max_count"] == 5
+
+    def test_malformed_yaml_raises(self, tmp_path: Path) -> None:
+        bad_yaml = tmp_path / "default.yaml"
+        bad_yaml.write_text("key: [invalid yaml\n  missing bracket")
+        with pytest.raises(yaml.YAMLError):
+            load_config(config_dir=tmp_path)
+
+    def test_env_var_expansion(self, config_dir: Path) -> None:
+        with patch.dict(os.environ, {"POSTGRES_PASSWORD": "secret123"}):
+            config = load_config(config_dir=config_dir, env="dev")
+            assert config["postgres"]["password"] == "secret123"
+
+    def test_env_var_default_value(self, config_dir: Path) -> None:
+        env = os.environ.pop("POSTGRES_PASSWORD", None)
+        try:
+            config = load_config(config_dir=config_dir, env="dev")
+            assert config["postgres"]["password"] == "changeme"
+        finally:
+            if env is not None:
+                os.environ["POSTGRES_PASSWORD"] = env
+
+
+class TestExpandEnvVars:
+    """Tests for _expand_env_vars utility."""
+
+    def test_simple_expansion(self) -> None:
+        with patch.dict(os.environ, {"MY_VAR": "hello"}):
+            assert _expand_env_vars("${MY_VAR:-default}") == "hello"
+
+    def test_default_when_missing(self) -> None:
+        os.environ.pop("NONEXISTENT_VAR", None)
+        assert _expand_env_vars("${NONEXISTENT_VAR:-fallback}") == "fallback"
+
+    def test_nested_dict(self) -> None:
+        with patch.dict(os.environ, {"DB_HOST": "prod-db"}):
+            result = _expand_env_vars({"db": {"host": "${DB_HOST:-localhost}"}})
+            assert result["db"]["host"] == "prod-db"
+
+    def test_list_expansion(self) -> None:
+        with patch.dict(os.environ, {"PORT": "5432"}):
+            result = _expand_env_vars(["${PORT:-3306}", "plain"])
+            assert result == ["5432", "plain"]
+
+    def test_non_string_passthrough(self) -> None:
+        assert _expand_env_vars(42) == 42
+        assert _expand_env_vars(3.14) == 3.14
+        assert _expand_env_vars(None) is None

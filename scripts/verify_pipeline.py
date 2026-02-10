@@ -20,13 +20,15 @@ import json
 import logging
 import subprocess
 import sys
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from typing import Any
+
+from psycopg2 import sql
 
 from src.utils.config import load_config
 from src.utils.db import get_cursor
@@ -109,7 +111,9 @@ class PipelineVerifier:
         for schema, table in tables:
             try:
                 with get_cursor(self.config) as cur:
-                    cur.execute(f"SELECT COUNT(*) FROM {schema}.{table}")
+                    cur.execute(sql.SQL("SELECT COUNT(*) FROM {}.{}").format(
+                        sql.Identifier(schema), sql.Identifier(table),
+                    ))
                     row = cur.fetchone()
                     count = row[0] if row else 0
                     status = CHECK_PASS if count > 0 else CHECK_WARN
@@ -124,7 +128,7 @@ class PipelineVerifier:
         print("\n--- Data Freshness ---")
         freshness_queries = [
             ("bronze.raw_transactions", "SELECT MAX(ingested_at) FROM bronze.raw_transactions"),
-            ("silver.clean_transactions", "SELECT MAX(processed_at) FROM silver.clean_transactions"),
+            ("silver.clean_transactions", "SELECT MAX(cleaned_at) FROM silver.clean_transactions"),
         ]
 
         for name, query in freshness_queries:
@@ -136,7 +140,7 @@ class PipelineVerifier:
                     if last_ts is None:
                         self._record(name, CHECK_WARN, "No data yet")
                     else:
-                        age = datetime.now() - last_ts
+                        age = datetime.now(UTC) - last_ts
                         minutes = age.total_seconds() / 60
                         status = CHECK_PASS if minutes < 60 else CHECK_WARN
                         self._record(

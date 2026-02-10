@@ -170,7 +170,7 @@ Resilience testing + documentation polish:
 |--------|-------|
 | **Source files** | 35 Python files |
 | **Test files** | 18 test files |
-| **Total tests** | 242 passed, 2 skipped |
+| **Total tests** | 254 passed, 2 skipped |
 | **ruff** | Zero warnings (strict: E, F, I, UP, B, SIM, N, RUF) |
 | **mypy** | Zero errors (--strict mode, 35 source files) |
 | **Coverage** | > 80% |

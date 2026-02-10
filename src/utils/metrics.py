@@ -11,6 +11,7 @@ Metric naming convention: streamflow_{component}_{metric}_{unit}
 from __future__ import annotations
 
 import logging
+import threading
 import time
 from collections import defaultdict
 from collections.abc import Generator
@@ -45,6 +46,7 @@ class MetricsCollector:
     """
 
     def __init__(self) -> None:
+        self._lock = threading.Lock()
         self._counters: dict[str, dict[str, float]] = defaultdict(
             lambda: defaultdict(float)
         )
@@ -55,14 +57,17 @@ class MetricsCollector:
 
     def inc_counter(self, name: str, value: float = 1.0, **labels: str) -> None:
         label_key = _labels_to_key(labels)
-        self._counters[name][label_key] += value
+        with self._lock:
+            self._counters[name][label_key] += value
 
     def set_gauge(self, name: str, value: float, **labels: str) -> None:
         label_key = _labels_to_key(labels)
-        self._gauges[name][label_key] = value
+        with self._lock:
+            self._gauges[name][label_key] = value
 
     def observe_histogram(self, name: str, value: float) -> None:
-        self._histograms[name].append(value)
+        with self._lock:
+            self._histograms[name].append(value)
 
     @contextmanager
     def timer(self, metric_name: str) -> Generator[None, None, None]:
@@ -76,27 +81,32 @@ class MetricsCollector:
 
     def get_counter(self, name: str, **labels: str) -> float:
         label_key = _labels_to_key(labels)
-        return self._counters[name][label_key]
+        with self._lock:
+            return self._counters[name][label_key]
 
     def get_gauge(self, name: str, **labels: str) -> float:
         label_key = _labels_to_key(labels)
-        return self._gauges[name][label_key]
+        with self._lock:
+            return self._gauges[name][label_key]
 
     def get_histogram(self, name: str) -> list[float]:
-        return list(self._histograms[name])
+        with self._lock:
+            return list(self._histograms[name])
 
     def snapshot(self) -> dict[str, Any]:
         """Return a snapshot of all collected metrics."""
-        return {
-            "counters": dict(self._counters),
-            "gauges": dict(self._gauges),
-            "histograms": {k: len(v) for k, v in self._histograms.items()},
-        }
+        with self._lock:
+            return {
+                "counters": dict(self._counters),
+                "gauges": dict(self._gauges),
+                "histograms": {k: len(v) for k, v in self._histograms.items()},
+            }
 
     def reset(self) -> None:
-        self._counters.clear()
-        self._gauges.clear()
-        self._histograms.clear()
+        with self._lock:
+            self._counters.clear()
+            self._gauges.clear()
+            self._histograms.clear()
 
 
 def _labels_to_key(labels: dict[str, str]) -> str:

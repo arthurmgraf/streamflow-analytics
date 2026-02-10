@@ -5,5 +5,5 @@ SELECT
     'customer_id' AS column_name,
     COUNT(*) FILTER (WHERE customer_id IS NULL)::FLOAT / NULLIF(COUNT(*), 0) AS null_rate
 FROM silver.clean_transactions
-WHERE processed_at > NOW() - INTERVAL '1 hour'
+WHERE cleaned_at > NOW() - INTERVAL '1 hour'
 HAVING COUNT(*) FILTER (WHERE customer_id IS NULL)::FLOAT / NULLIF(COUNT(*), 0) > 0.05;

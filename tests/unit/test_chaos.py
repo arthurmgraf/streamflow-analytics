@@ -23,6 +23,7 @@ from src.flink_jobs.common.state import (
     GeoLocation,
     RunningStats,
     VelocityWindow,
+    haversine_km,
 )
 from src.flink_jobs.fraud_detector import FraudRuleEvaluator
 from src.flink_jobs.ml.feature_engineering import extract_features
@@ -101,6 +102,25 @@ class TestStateCorruption:
         recovered_stats = RunningStats.from_bytes(data)
         assert recovered_stats.count == 999999
         assert recovered_stats.mean == 1e15
+
+
+class TestHaversineEdgeCases:
+    """Test haversine distance with edge cases."""
+
+    def test_same_point_returns_zero(self) -> None:
+        assert haversine_km(0.0, 0.0, 0.0, 0.0) == 0.0
+
+    def test_antipodal_points(self) -> None:
+        dist = haversine_km(0.0, 0.0, 0.0, 180.0)
+        assert 20000.0 < dist < 20100.0
+
+    def test_poles(self) -> None:
+        dist = haversine_km(90.0, 0.0, -90.0, 0.0)
+        assert 20000.0 < dist < 20100.0
+
+    def test_nan_coordinates(self) -> None:
+        dist = haversine_km(float("nan"), 0.0, 0.0, 0.0)
+        assert math.isnan(dist)
 
 
 class TestExtremeInputs:

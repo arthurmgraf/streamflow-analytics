@@ -17,8 +17,20 @@ If you discover a security vulnerability, please report it responsibly:
 
 ## Security Practices
 
+### Implemented
+
 - All secrets managed via Kubernetes Secrets (no hardcoded values)
-- Infrastructure deployed via Terraform with state encryption
-- Kafka TLS encryption for inter-broker communication
-- PostgreSQL connections with SSL required
-- CI/CD with secret scanning enabled
+- Infrastructure deployed via Terraform with state locking
+- Flink pods: `runAsNonRoot`, `drop ALL` capabilities, `readOnlyRootFilesystem`
+- NetworkPolicies with default-deny ingress/egress per namespace
+- PodDisruptionBudgets on all stateful workloads
+- `pip-audit` in CI for dependency vulnerability scanning
+- Pydantic validation at ingestion boundary (prevents injection via data layer)
+- `yaml.safe_load` for all YAML parsing (prevents arbitrary code execution)
+
+### Planned Improvements
+
+- Kafka TLS encryption for inter-broker and client communication (Strimzi listener `tls: true`)
+- PostgreSQL SSL (`sslmode=verify-full`) with certificate rotation
+- Secret rotation via External Secrets Operator
+- RBAC least-privilege for K8s service accounts

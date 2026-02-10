@@ -181,7 +181,8 @@ class TestFraudEngineIntegration:
                 "timestamp_epoch": now + 600 + i * 10,
             }
             alert = engine.process_transaction(data)
-        # Last one should trigger given multiple rules
-        # Engine processes 8 rapid high-value txns for a blacklisted customer
-        # The final alert may or may not exceed threshold depending on weights
-        assert alert is None or alert.fraud_score > 0
+        # 8 rapid high-value txns for a blacklisted customer should trigger
+        # at least blacklist (FR-005) and velocity (FR-002) rules
+        assert alert is not None
+        assert alert.fraud_score > 0
+        assert len(alert.rules_triggered) >= 1
