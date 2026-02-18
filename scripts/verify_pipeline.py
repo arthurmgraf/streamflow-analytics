@@ -51,9 +51,7 @@ class PipelineVerifier:
         self.results: list[dict[str, str]] = []
 
     def _record(self, component: str, status: str, message: str) -> None:
-        self.results.append(
-            {"component": component, "status": status, "message": message}
-        )
+        self.results.append({"component": component, "status": status, "message": message})
         symbol = status
         print(f"  {symbol} {component}: {message}")
 
@@ -75,8 +73,7 @@ class PipelineVerifier:
             try:
                 with get_cursor(self.config) as cur:
                     cur.execute(
-                        "SELECT COUNT(*) FROM information_schema.schemata "
-                        "WHERE schema_name = %s",
+                        "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = %s",
                         (schema,),
                     )
                     row = cur.fetchone()
@@ -84,9 +81,7 @@ class PipelineVerifier:
                     if exists:
                         self._record(f"schema-{schema}", CHECK_PASS, "Schema exists")
                     else:
-                        self._record(
-                            f"schema-{schema}", CHECK_FAIL, "Schema not found"
-                        )
+                        self._record(f"schema-{schema}", CHECK_FAIL, "Schema not found")
             except Exception as e:
                 self._record(f"schema-{schema}", CHECK_FAIL, str(e))
 
@@ -111,15 +106,16 @@ class PipelineVerifier:
         for schema, table in tables:
             try:
                 with get_cursor(self.config) as cur:
-                    cur.execute(sql.SQL("SELECT COUNT(*) FROM {}.{}").format(
-                        sql.Identifier(schema), sql.Identifier(table),
-                    ))
+                    cur.execute(
+                        sql.SQL("SELECT COUNT(*) FROM {}.{}").format(
+                            sql.Identifier(schema),
+                            sql.Identifier(table),
+                        )
+                    )
                     row = cur.fetchone()
                     count = row[0] if row else 0
                     status = CHECK_PASS if count > 0 else CHECK_WARN
-                    self._record(
-                        f"{schema}.{table}", status, f"{count:,} rows"
-                    )
+                    self._record(f"{schema}.{table}", status, f"{count:,} rows")
             except Exception as e:
                 self._record(f"{schema}.{table}", CHECK_SKIP, str(e)[:60])
 
@@ -143,9 +139,7 @@ class PipelineVerifier:
                         age = datetime.now(UTC) - last_ts
                         minutes = age.total_seconds() / 60
                         status = CHECK_PASS if minutes < 60 else CHECK_WARN
-                        self._record(
-                            name, status, f"Last record {minutes:.0f} min ago"
-                        )
+                        self._record(name, status, f"Last record {minutes:.0f} min ago")
             except Exception as e:
                 self._record(name, CHECK_SKIP, str(e)[:60])
 
@@ -155,8 +149,13 @@ class PipelineVerifier:
         try:
             result = subprocess.run(
                 [
-                    "kubectl", "get", "kafka", "-n", "streamflow-kafka",
-                    "-o", "jsonpath={.items[0].status.conditions[0].type}",
+                    "kubectl",
+                    "get",
+                    "kafka",
+                    "-n",
+                    "streamflow-kafka",
+                    "-o",
+                    "jsonpath={.items[0].status.conditions[0].type}",
                 ],
                 capture_output=True,
                 text=True,
@@ -166,7 +165,8 @@ class PipelineVerifier:
                 self._record("kafka-cluster", CHECK_PASS, "Kafka cluster is Ready")
             else:
                 self._record(
-                    "kafka-cluster", CHECK_WARN,
+                    "kafka-cluster",
+                    CHECK_WARN,
                     f"Status: {result.stdout or result.stderr[:60]}",
                 )
         except FileNotFoundError:
@@ -178,8 +178,13 @@ class PipelineVerifier:
         try:
             result = subprocess.run(
                 [
-                    "kubectl", "get", "kafkatopics", "-n", "streamflow-kafka",
-                    "-o", "jsonpath={.items[*].metadata.name}",
+                    "kubectl",
+                    "get",
+                    "kafkatopics",
+                    "-n",
+                    "streamflow-kafka",
+                    "-o",
+                    "jsonpath={.items[*].metadata.name}",
                 ],
                 capture_output=True,
                 text=True,
@@ -201,8 +206,13 @@ class PipelineVerifier:
         try:
             result = subprocess.run(
                 [
-                    "kubectl", "get", "flinkdeployments", "-n", "streamflow-processing",
-                    "-o", "json",
+                    "kubectl",
+                    "get",
+                    "flinkdeployments",
+                    "-n",
+                    "streamflow-processing",
+                    "-o",
+                    "json",
                 ],
                 capture_output=True,
                 text=True,
@@ -214,11 +224,7 @@ class PipelineVerifier:
                 if items:
                     for item in items:
                         name = item["metadata"]["name"]
-                        state = (
-                            item.get("status", {})
-                            .get("jobStatus", {})
-                            .get("state", "UNKNOWN")
-                        )
+                        state = item.get("status", {}).get("jobStatus", {}).get("state", "UNKNOWN")
                         status = CHECK_PASS if state == "RUNNING" else CHECK_WARN
                         self._record(f"flink-{name}", status, f"State: {state}")
                 else:
@@ -236,9 +242,15 @@ class PipelineVerifier:
         try:
             result = subprocess.run(
                 [
-                    "kubectl", "get", "pods", "-n", "streamflow-orchestration",
-                    "-l", "component in (webserver,scheduler)",
-                    "-o", "jsonpath={range .items[*]}{.metadata.name} {.status.phase}\n{end}",
+                    "kubectl",
+                    "get",
+                    "pods",
+                    "-n",
+                    "streamflow-orchestration",
+                    "-l",
+                    "component in (webserver,scheduler)",
+                    "-o",
+                    "jsonpath={range .items[*]}{.metadata.name} {.status.phase}\n{end}",
                 ],
                 capture_output=True,
                 text=True,
@@ -280,7 +292,9 @@ class PipelineVerifier:
         total = len(self.results)
 
         print(f"  Total: {total} checks")
-        print(f"  {CHECK_PASS} {passed}  {CHECK_FAIL} {failed}  {CHECK_WARN} {warned}  {CHECK_SKIP} {skipped}")
+        print(
+            f"  {CHECK_PASS} {passed}  {CHECK_FAIL} {failed}  {CHECK_WARN} {warned}  {CHECK_SKIP} {skipped}"
+        )
         print("=" * 60)
 
         return 1 if failed > 0 else 0

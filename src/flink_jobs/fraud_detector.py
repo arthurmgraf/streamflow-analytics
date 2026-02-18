@@ -114,9 +114,7 @@ class FraudRuleEvaluator:
             return None
 
         triggered_rules = [FraudRuleId(r.rule_id) for r in results if r.triggered]
-        rule_details: dict[str, object] = {
-            r.rule_id: asdict(r) for r in results if r.triggered
-        }
+        rule_details: dict[str, object] = {r.rule_id: asdict(r) for r in results if r.triggered}
 
         return FraudAlert(
             transaction_id=transaction_data["transaction_id"],
@@ -129,9 +127,7 @@ class FraudRuleEvaluator:
 
     # --- Individual Rules (pure functions operating on state objects) ---
 
-    def _eval_high_value(
-        self, amount_stats: RunningStats, amount: float
-    ) -> FraudRuleResult:
+    def _eval_high_value(self, amount_stats: RunningStats, amount: float) -> FraudRuleResult:
         """FR-001: High Value — transaction > multiplier * customer average."""
         cfg = self.config.get("high_value", {})
         multiplier = cfg.get("multiplier", 3.0)
@@ -247,9 +243,7 @@ class FraudRuleEvaluator:
         )
 
     @staticmethod
-    def _eval_blacklist(
-        is_blacklisted: bool, store_id: str | None
-    ) -> FraudRuleResult:
+    def _eval_blacklist(is_blacklisted: bool, store_id: str | None) -> FraudRuleResult:
         """FR-005: Blacklist — customer or store on known fraud list."""
         _ = store_id  # Store-level blacklist handled at state loading
         return FraudRuleResult(

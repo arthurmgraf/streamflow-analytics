@@ -15,10 +15,12 @@ _ENV_VAR_PATTERN = re.compile(r"\$\{(\w+)(?::-(.*?))?\}")
 def _expand_env_vars(value: Any) -> Any:
     """Expand ${VAR:-default} patterns in string values."""
     if isinstance(value, str):
+
         def _replace(match: re.Match[str]) -> str:
             var_name = match.group(1)
             default = match.group(2) if match.group(2) is not None else ""
             return os.environ.get(var_name, default)
+
         return _ENV_VAR_PATTERN.sub(_replace, value)
     if isinstance(value, dict):
         return {k: _expand_env_vars(v) for k, v in value.items()}

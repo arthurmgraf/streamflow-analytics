@@ -122,9 +122,7 @@ class TestCustomerFraudStateComposition:
         state.hour_stats.update(10.0)
         state.velocity_window.add(1000.0)
         state.velocity_window.add(1010.0)
-        state.last_location = GeoLocation(
-            latitude=-23.55, longitude=-46.63, timestamp_epoch=1000.0
-        )
+        state.last_location = GeoLocation(latitude=-23.55, longitude=-46.63, timestamp_epoch=1000.0)
         state.blacklisted = True
 
         amount_restored = RunningStats.from_bytes(state.amount_stats.to_bytes())

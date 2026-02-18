@@ -27,6 +27,7 @@ pytestmark = pytest.mark.integration
 def _sklearn_available() -> bool:
     try:
         import sklearn  # noqa: F401
+
         return True
     except ImportError:
         return False
@@ -65,7 +66,11 @@ class TestFeatureExtractionPipeline:
 
         now = time.time()
         evaluator.evaluate(
-            state, 100.0, now, latitude=-23.55, longitude=-46.63,
+            state,
+            100.0,
+            now,
+            latitude=-23.55,
+            longitude=-46.63,
         )
 
         features = extract_features(
@@ -161,8 +166,11 @@ class TestFraudEngineWithMLFeatures:
         now = time.time()
         for i in range(5):
             engine.evaluate(
-                customer_id, 50.0, now + i * 60,
-                latitude=-23.55, longitude=-46.63,
+                customer_id,
+                50.0,
+                now + i * 60,
+                latitude=-23.55,
+                longitude=-46.63,
             )
 
         state = engine._get_state(customer_id)

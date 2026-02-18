@@ -45,7 +45,10 @@ def generate_training_data(
     stores = generate_stores(20, seed=seed)
     generator = TransactionGenerator(customers=customers, stores=stores, seed=seed)
     injector = FraudInjector(
-        customers=customers, stores=stores, fraud_rate=fraud_rate, seed=seed,
+        customers=customers,
+        stores=stores,
+        fraud_rate=fraud_rate,
+        seed=seed,
     )
     evaluator = FraudRuleEvaluator()
 

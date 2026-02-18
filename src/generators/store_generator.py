@@ -22,12 +22,27 @@ STORE_LOCATIONS = [
 ]
 
 CATEGORIES = [
-    "electronics", "clothing", "food", "pharmacy", "supermarket",
-    "furniture", "sports", "books", "cosmetics", "automotive",
+    "electronics",
+    "clothing",
+    "food",
+    "pharmacy",
+    "supermarket",
+    "furniture",
+    "sports",
+    "books",
+    "cosmetics",
+    "automotive",
 ]
 
 STORE_PREFIXES = [
-    "Loja", "Casa", "Super", "Mega", "Center", "Ponto", "Mundo", "Top",
+    "Loja",
+    "Casa",
+    "Super",
+    "Mega",
+    "Center",
+    "Ponto",
+    "Mundo",
+    "Top",
 ]
 
 

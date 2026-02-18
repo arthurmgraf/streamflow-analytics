@@ -50,9 +50,7 @@ class TransactionGenerator:
                 "avg_amount": self.rng.uniform(50, 500),
                 "std_amount": self.rng.uniform(20, 200),
                 "preferred_hours": self.rng.sample(range(8, 23), k=5),
-                "preferred_stores": self.rng.sample(
-                    stores, k=min(3, len(stores))
-                ),
+                "preferred_stores": self.rng.sample(stores, k=min(3, len(stores))),
                 "preferred_payment": self.rng.choice(PAYMENT_METHODS),
             }
 

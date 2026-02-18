@@ -98,9 +98,7 @@ def build_fraud_detection_pipeline(
     fraud_alerts.sink_to(kafka_alert_sink)
 
     # Side output: fraud alerts → PostgreSQL bronze
-    jdbc_url = (
-        f"jdbc:postgresql://{pg_cfg['host']}:{pg_cfg.get('port', 5432)}/{pg_cfg['database']}"
-    )
+    jdbc_url = f"jdbc:postgresql://{pg_cfg['host']}:{pg_cfg.get('port', 5432)}/{pg_cfg['database']}"
 
     jdbc_alert_sink = JdbcSink.sink(
         BRONZE_RAW_FRAUD_ALERTS_INSERT,

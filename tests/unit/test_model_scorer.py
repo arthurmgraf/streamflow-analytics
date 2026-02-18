@@ -47,9 +47,7 @@ class TestAnomalyScorerWithModel:
         anomaly_data = rng.randn(10, 6) * 3 + 15
         data = np.vstack([normal_data, anomaly_data])
 
-        model = IsolationForest(
-            n_estimators=50, contamination=0.05, random_state=42
-        )
+        model = IsolationForest(n_estimators=50, contamination=0.05, random_state=42)
         model.fit(data)
 
         with tempfile.NamedTemporaryFile(suffix=".joblib", delete=False) as f:

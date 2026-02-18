@@ -21,8 +21,14 @@ from src.flink_jobs.common.dlq import MAX_RAW_EVENT_SIZE, build_dlq_record
 pytestmark = pytest.mark.contract
 
 DLQ_REQUIRED_FIELDS = {
-    "timestamp", "error_type", "error_message", "source_topic",
-    "processor", "raw_event", "truncated", "raw_event_length",
+    "timestamp",
+    "error_type",
+    "error_message",
+    "source_topic",
+    "processor",
+    "raw_event",
+    "truncated",
+    "raw_event_length",
 }
 
 

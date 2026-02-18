@@ -66,9 +66,7 @@ class TestExtractFeatures:
 
     def test_geo_speed_with_location(self) -> None:
         state = CustomerFraudState(
-            last_location=GeoLocation(
-                latitude=-23.55, longitude=-46.63, timestamp_epoch=1000.0
-            )
+            last_location=GeoLocation(latitude=-23.55, longitude=-46.63, timestamp_epoch=1000.0)
         )
         features = extract_features(
             state,
@@ -83,8 +81,11 @@ class TestExtractFeatures:
     def test_geo_speed_without_location(self) -> None:
         state = CustomerFraudState()
         features = extract_features(
-            state, amount=100.0, hour=14.0,
-            latitude=-23.55, longitude=-46.63,
+            state,
+            amount=100.0,
+            hour=14.0,
+            latitude=-23.55,
+            longitude=-46.63,
             timestamp_epoch=1000.0,
         )
         assert features[3] == 0.0  # No last_location

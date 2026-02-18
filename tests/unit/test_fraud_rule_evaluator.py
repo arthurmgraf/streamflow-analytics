@@ -60,12 +60,18 @@ class TestFraudRuleEvaluatorStateless:
         state = CustomerFraudState()
         now = time.time()
         evaluator.evaluate(
-            state, amount=50.0, timestamp_epoch=now,
-            latitude=-23.55, longitude=-46.63,
+            state,
+            amount=50.0,
+            timestamp_epoch=now,
+            latitude=-23.55,
+            longitude=-46.63,
         )
         _score, results = evaluator.evaluate(
-            state, amount=50.0, timestamp_epoch=now + 1800,
-            latitude=-3.12, longitude=-60.02,
+            state,
+            amount=50.0,
+            timestamp_epoch=now + 1800,
+            latitude=-3.12,
+            longitude=-60.02,
         )
         geo = next(r for r in results if r.rule_id == "FR-003")
         assert geo.triggered
@@ -83,8 +89,11 @@ class TestFraudRuleEvaluatorStateless:
         state = CustomerFraudState()
         now = time.time()
         evaluator.evaluate(
-            state, amount=50.0, timestamp_epoch=now,
-            latitude=-23.55, longitude=-46.63,
+            state,
+            amount=50.0,
+            timestamp_epoch=now,
+            latitude=-23.55,
+            longitude=-46.63,
         )
         assert state.last_location is not None
         assert state.last_location.latitude == -23.55
@@ -98,7 +107,9 @@ class TestFraudRuleEvaluatorStateless:
         for i in range(8):
             evaluator.evaluate(state, amount=500.0, timestamp_epoch=now + 700 + i * 5)
         score, results = evaluator.evaluate(
-            state, amount=1000.0, timestamp_epoch=now + 750,
+            state,
+            amount=1000.0,
+            timestamp_epoch=now + 750,
         )
         txn_data = {
             "transaction_id": "txn-alert-001",

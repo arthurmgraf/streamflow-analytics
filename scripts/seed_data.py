@@ -62,8 +62,16 @@ def seed_products(config: dict[str, Any], count: int, seed: int) -> int:
 
     rng = random.Random(seed)
     categories = [
-        "electronics", "clothing", "food", "pharmacy", "supermarket",
-        "furniture", "sports", "books", "cosmetics", "automotive",
+        "electronics",
+        "clothing",
+        "food",
+        "pharmacy",
+        "supermarket",
+        "furniture",
+        "sports",
+        "books",
+        "cosmetics",
+        "automotive",
     ]
     with get_cursor(config) as cur:
         for i in range(count):

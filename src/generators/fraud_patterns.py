@@ -44,12 +44,14 @@ class FraudInjector:
         Returns:
             Modified transaction with fraud characteristics.
         """
-        pattern = self.rng.choice([
-            self._inject_high_value,
-            self._inject_velocity_burst,
-            self._inject_geographic_anomaly,
-            self._inject_time_anomaly,
-        ])
+        pattern = self.rng.choice(
+            [
+                self._inject_high_value,
+                self._inject_velocity_burst,
+                self._inject_geographic_anomaly,
+                self._inject_time_anomaly,
+            ]
+        )
         return pattern(base_txn)
 
     def _inject_high_value(self, txn: Transaction) -> Transaction:
@@ -72,11 +74,13 @@ class FraudInjector:
         """FR-003: Move transaction to a distant location."""
         # Pick a store far from original
         distant_store = self.rng.choice(self.stores)
-        return txn.model_copy(update={
-            "store_id": distant_store.store_id,
-            "latitude": distant_store.latitude,
-            "longitude": distant_store.longitude,
-        })
+        return txn.model_copy(
+            update={
+                "store_id": distant_store.store_id,
+                "latitude": distant_store.latitude,
+                "longitude": distant_store.longitude,
+            }
+        )
 
     def _inject_time_anomaly(self, txn: Transaction) -> Transaction:
         """FR-004: Shift to unusual hours (2-5 AM)."""

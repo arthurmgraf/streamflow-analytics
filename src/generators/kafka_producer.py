@@ -18,14 +18,16 @@ class StreamFlowProducer:
 
     def __init__(self, config: dict[str, Any]) -> None:
         kafka_cfg = config["kafka"]
-        self._producer = Producer({
-            "bootstrap.servers": kafka_cfg["bootstrap_servers"],
-            "client.id": "streamflow-generator",
-            "acks": "all",
-            "retries": 3,
-            "linger.ms": 10,
-            "batch.size": 16384,
-        })
+        self._producer = Producer(
+            {
+                "bootstrap.servers": kafka_cfg["bootstrap_servers"],
+                "client.id": "streamflow-generator",
+                "acks": "all",
+                "retries": 3,
+                "linger.ms": 10,
+                "batch.size": 16384,
+            }
+        )
         self._topic = kafka_cfg["topics"]["transactions"]
         self._sent = 0
         self._errors = 0

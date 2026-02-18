@@ -14,7 +14,6 @@ from src.utils.metrics import (
 
 
 class TestMetricsCollector:
-
     def test_increment_counter(self) -> None:
         collector = MetricsCollector()
         collector.inc_counter(TRANSACTIONS_PROCESSED_TOTAL, status="success")

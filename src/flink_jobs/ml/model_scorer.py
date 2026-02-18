@@ -46,9 +46,7 @@ class AnomalyScorer:
             self._model = joblib.load(self._model_path)
             logger.info("ML model loaded from %s", self._model_path)
         except FileNotFoundError:
-            logger.warning(
-                "Model file not found at %s — ML scoring disabled", self._model_path
-            )
+            logger.warning("Model file not found at %s — ML scoring disabled", self._model_path)
             self._model = None
         except ImportError:
             logger.warning("joblib not installed — ML scoring disabled")
@@ -77,7 +75,5 @@ class AnomalyScorer:
 
         # Normalize: decision_function returns negative for anomalies
         # More negative = more anomalous, so we invert
-        normalized = 1.0 - (raw_score - self._score_min) / (
-            self._score_max - self._score_min
-        )
+        normalized = 1.0 - (raw_score - self._score_min) / (self._score_max - self._score_min)
         return max(0.0, min(1.0, normalized))

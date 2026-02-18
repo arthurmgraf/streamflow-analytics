@@ -108,7 +108,7 @@ jobs:
         run: pip install -e ".[dev]" pip-audit
 
       - name: Dependency audit
-        run: pip-audit --strict --desc
+        run: pip-audit --strict --desc --skip-editable
 
   k8s-validate:
     name: K8s Manifest Validation

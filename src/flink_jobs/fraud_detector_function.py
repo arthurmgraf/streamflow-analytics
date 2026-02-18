@@ -147,6 +147,4 @@ class FraudDetectorFunction(KeyedProcessFunction):  # type: ignore[misc]
         if state.velocity_window.timestamps:
             self._velocity_state.add(state.velocity_window.to_bytes())
 
-        self._blacklisted_state.update(
-            json.dumps(state.blacklisted).encode("utf-8")
-        )
+        self._blacklisted_state.update(json.dumps(state.blacklisted).encode("utf-8"))

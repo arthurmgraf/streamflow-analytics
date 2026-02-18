@@ -80,9 +80,7 @@ class TestGeographicRule:
         # São Paulo
         engine.evaluate(cid, 100.0, now, latitude=-23.55, longitude=-46.63)
         # São Paulo still (same city, minutes later)
-        _, results = engine.evaluate(
-            cid, 100.0, now + 600, latitude=-23.56, longitude=-46.64
-        )
+        _, results = engine.evaluate(cid, 100.0, now + 600, latitude=-23.56, longitude=-46.64)
         geo = next(r for r in results if r.rule_id == "FR-003")
         assert not geo.triggered
 
@@ -93,9 +91,7 @@ class TestGeographicRule:
         # São Paulo
         engine.evaluate(cid, 100.0, now, latitude=-23.55, longitude=-46.63)
         # Manaus, 30 minutes later (~2700km away)
-        _, results = engine.evaluate(
-            cid, 100.0, now + 1800, latitude=-3.12, longitude=-60.02
-        )
+        _, results = engine.evaluate(cid, 100.0, now + 1800, latitude=-3.12, longitude=-60.02)
         geo = next(r for r in results if r.rule_id == "FR-003")
         assert geo.triggered
 
@@ -142,9 +138,7 @@ class TestBlacklistRule:
     def test_blacklisted_store_triggers(self) -> None:
         engine = FraudEngine()
         engine.set_blacklist({"store-bad-001"})
-        _, results = engine.evaluate(
-            "cust-clean-002", 100.0, time.time(), store_id="store-bad-001"
-        )
+        _, results = engine.evaluate("cust-clean-002", 100.0, time.time(), store_id="store-bad-001")
         bl = next(r for r in results if r.rule_id == "FR-005")
         assert bl.triggered
 

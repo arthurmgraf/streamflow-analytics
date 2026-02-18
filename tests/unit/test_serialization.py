@@ -18,13 +18,15 @@ class TestTransactionSerde:
     """Tests for Transaction serialization/deserialization."""
 
     def test_deserialize_valid_json(self) -> None:
-        raw = json.dumps({
-            "transaction_id": "txn-001",
-            "customer_id": "cust-001",
-            "store_id": "store-001",
-            "amount": "100.50",
-            "timestamp": "2026-01-15T10:00:00",
-        })
+        raw = json.dumps(
+            {
+                "transaction_id": "txn-001",
+                "customer_id": "cust-001",
+                "store_id": "store-001",
+                "amount": "100.50",
+                "timestamp": "2026-01-15T10:00:00",
+            }
+        )
         txn = deserialize_transaction(raw)
         assert txn is not None
         assert txn.transaction_id == "txn-001"

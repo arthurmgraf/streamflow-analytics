@@ -47,12 +47,8 @@ class MetricsCollector:
 
     def __init__(self) -> None:
         self._lock = threading.Lock()
-        self._counters: dict[str, dict[str, float]] = defaultdict(
-            lambda: defaultdict(float)
-        )
-        self._gauges: dict[str, dict[str, float]] = defaultdict(
-            lambda: defaultdict(float)
-        )
+        self._counters: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
+        self._gauges: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
         self._histograms: dict[str, list[float]] = defaultdict(list)
 
     def inc_counter(self, name: str, value: float = 1.0, **labels: str) -> None:

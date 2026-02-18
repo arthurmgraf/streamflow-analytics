@@ -91,7 +91,9 @@ class TestStateCorruption:
             amount_stats=RunningStats(count=999999, mean=1e15, m2=1e30),
             hour_stats=RunningStats(count=0, mean=0.0, m2=0.0),
             last_location=GeoLocation(
-                latitude=-90.0, longitude=-180.0, timestamp_epoch=1e12,
+                latitude=-90.0,
+                longitude=-180.0,
+                timestamp_epoch=1e12,
             ),
             velocity_window=VelocityWindow(),
             blacklisted=True,
@@ -170,7 +172,9 @@ class TestExtremeInputs:
 
     def test_geographic_same_location(self, evaluator: FraudRuleEvaluator) -> None:
         last_loc = GeoLocation(
-            latitude=-23.5505, longitude=-46.6333, timestamp_epoch=time.time() - 60,
+            latitude=-23.5505,
+            longitude=-46.6333,
+            timestamp_epoch=time.time() - 60,
         )
         result = evaluator._eval_geographic(last_loc, -23.5505, -46.6333, time.time())
         assert not result.triggered

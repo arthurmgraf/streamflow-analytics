@@ -70,7 +70,9 @@ def warm_customer_state() -> CustomerFraudState:
         state.hour_stats.update(14.0 + (i % 3))
         state.velocity_window.add(now + i * 600)
     state.last_location = GeoLocation(
-        latitude=-23.5505, longitude=-46.6333, timestamp_epoch=now + 5400,
+        latitude=-23.5505,
+        longitude=-46.6333,
+        timestamp_epoch=now + 5400,
     )
     return state
 

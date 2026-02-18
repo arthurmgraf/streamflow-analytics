@@ -31,6 +31,7 @@ _mock_output_tag = MagicMock()
 _pyflink_datastream.OutputTag = _mock_output_tag  # type: ignore[attr-defined]
 _pyflink_datastream.RuntimeContext = MagicMock  # type: ignore[attr-defined]
 
+
 # Mock KeyedProcessFunction as a real class (not MagicMock) so subclassing works
 class _MockKeyedProcessFunction:
     class Context:
@@ -45,9 +46,10 @@ class _MockKeyedProcessFunction:
 
 _pyflink_datastream_functions.KeyedProcessFunction = _MockKeyedProcessFunction  # type: ignore[attr-defined]
 
-# Mock state descriptors
-_pyflink_datastream_state.ValueStateDescriptor = MagicMock  # type: ignore[attr-defined]
-_pyflink_datastream_state.ListStateDescriptor = MagicMock  # type: ignore[attr-defined]
+# Mock state descriptors — use lambdas so each call returns the unique name string,
+# preventing all ValueStates from sharing the same MagicMock return_value.
+_pyflink_datastream_state.ValueStateDescriptor = lambda name, *args: name  # type: ignore[attr-defined]
+_pyflink_datastream_state.ListStateDescriptor = lambda name, *args: name  # type: ignore[attr-defined]
 
 sys.modules["pyflink"] = _pyflink_mock
 sys.modules["pyflink.common"] = _pyflink_common
@@ -189,18 +191,14 @@ class TestFraudDetectorFunctionProcessElement:
         func, ctx = self._setup_function()
         now = time.time()
         for i in range(5):
-            func.process_element(
-                _build_txn(amount=100.0, timestamp_epoch=now + i * 60), ctx
-            )
+            func.process_element(_build_txn(amount=100.0, timestamp_epoch=now + i * 60), ctx)
         state = func._load_state()
         assert state.amount_stats.count == 5
         assert state.velocity_window.count == 5
 
     def test_location_persisted(self) -> None:
         func, ctx = self._setup_function()
-        func.process_element(
-            _build_txn(latitude=-23.55, longitude=-46.63), ctx
-        )
+        func.process_element(_build_txn(latitude=-23.55, longitude=-46.63), ctx)
         state = func._load_state()
         assert state.last_location is not None
         assert state.last_location.latitude == -23.55
@@ -231,9 +229,7 @@ class TestFraudDetectorFunctionStatePersistence:
         func, ctx = self._setup_function()
         now = time.time()
         for i in range(4):
-            func.process_element(
-                _build_txn(timestamp_epoch=now + i * 30), ctx
-            )
+            func.process_element(_build_txn(timestamp_epoch=now + i * 30), ctx)
         state = func._load_state()
         assert state.velocity_window.count == 4
 
@@ -261,12 +257,8 @@ class TestFraudDetectorFunctionAlertEmission:
         now = time.time()
         ctx = MockContext()
         for i in range(5):
-            func.process_element(
-                _build_txn(amount=50.0, timestamp_epoch=now + i * 60), ctx
-            )
-        func.process_element(
-            _build_txn(amount=500.0, timestamp_epoch=now + 350), ctx
-        )
+            func.process_element(_build_txn(amount=50.0, timestamp_epoch=now + i * 60), ctx)
+        func.process_element(_build_txn(amount=500.0, timestamp_epoch=now + 350), ctx)
         for _tag, value in ctx.side_outputs:
             alert_data = json.loads(value)
             assert "transaction_id" in alert_data

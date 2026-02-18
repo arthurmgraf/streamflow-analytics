@@ -80,7 +80,9 @@ def run_migrations(config: dict[str, Any]) -> None:
         logger.info("Completed: %s (checksum: %s)", migration_file.name, checksum)
 
     logger.info(
-        "Applied %d of %d migrations", len(pending), len(migration_files),
+        "Applied %d of %d migrations",
+        len(pending),
+        len(migration_files),
     )
 
 

@@ -159,8 +159,15 @@ class TestFraudAlertSerializationContract:
     def test_serialized_contains_required_fields(self) -> None:
         alert = self._make_alert()
         parsed = json.loads(serialize_fraud_alert(alert))
-        required = {"transaction_id", "customer_id", "fraud_score", "rules_triggered",
-                     "transaction_amount", "alert_type", "detected_at"}
+        required = {
+            "transaction_id",
+            "customer_id",
+            "fraud_score",
+            "rules_triggered",
+            "transaction_amount",
+            "alert_type",
+            "detected_at",
+        }
         assert required.issubset(parsed.keys())
 
     def test_rules_triggered_serialized_as_list(self) -> None:

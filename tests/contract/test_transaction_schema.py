@@ -205,16 +205,18 @@ class TestTransactionSerializationContract:
         assert txn.to_kafka_key() == "cust-ser-001"
 
     def test_schema_version_forward_compat(self) -> None:
-        future = json.dumps({
-            "schema_version": CURRENT_SCHEMA_VERSION + 1,
-            "transaction_id": "txn-future",
-            "customer_id": "cust-future",
-            "store_id": "store-future",
-            "amount": "100.00",
-            "currency": "BRL",
-            "timestamp": "2026-01-15T10:00:00",
-            "new_field_from_future": "ignored",
-        })
+        future = json.dumps(
+            {
+                "schema_version": CURRENT_SCHEMA_VERSION + 1,
+                "transaction_id": "txn-future",
+                "customer_id": "cust-future",
+                "store_id": "store-future",
+                "amount": "100.00",
+                "currency": "BRL",
+                "timestamp": "2026-01-15T10:00:00",
+                "new_field_from_future": "ignored",
+            }
+        )
         result = deserialize_transaction(future)
         assert result is not None
         assert result.transaction_id == "txn-future"

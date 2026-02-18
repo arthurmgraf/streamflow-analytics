@@ -43,9 +43,7 @@ class RunningStats:
 
     def to_bytes(self) -> bytes:
         """Serialize to bytes for Flink ValueState persistence."""
-        return json.dumps(
-            {"count": self.count, "mean": self.mean, "m2": self.m2}
-        ).encode("utf-8")
+        return json.dumps({"count": self.count, "mean": self.mean, "m2": self.m2}).encode("utf-8")
 
     @classmethod
     def from_bytes(cls, data: bytes) -> RunningStats:
@@ -64,11 +62,13 @@ class GeoLocation:
 
     def to_bytes(self) -> bytes:
         """Serialize to bytes for Flink ValueState persistence."""
-        return json.dumps({
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "timestamp_epoch": self.timestamp_epoch,
-        }).encode("utf-8")
+        return json.dumps(
+            {
+                "latitude": self.latitude,
+                "longitude": self.longitude,
+                "timestamp_epoch": self.timestamp_epoch,
+            }
+        ).encode("utf-8")
 
     @classmethod
     def from_bytes(cls, data: bytes) -> GeoLocation:
