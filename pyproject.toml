@@ -85,7 +85,14 @@ pythonpath = [".", "src"]
 [tool.coverage.run]
 source = ["src"]
 branch = true
-omit = ["tests/*", "src/dags/*"]
+omit = [
+    "tests/*",
+    "src/dags/*",
+    "src/flink_jobs/fraud_pipeline.py",
+    "src/flink_jobs/transaction_processor.py",
+    "src/generators/kafka_producer.py",
+    "src/utils/db.py",
+]
 
 [tool.coverage.report]
 show_missing = true

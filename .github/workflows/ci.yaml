@@ -105,10 +105,10 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -e ".[dev]" pip-audit
+        run: pip install ".[dev]" pip-audit
 
       - name: Dependency audit
-        run: pip-audit --strict --desc --skip-editable
+        run: pip-audit --strict --desc
 
   dbt-validate:
     name: dbt Compile & Test
@@ -122,7 +122,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dbt
-        run: pip install dbt-core dbt-postgres dbt-labs/dbt_utils
+        run: pip install dbt-core dbt-postgres
 
       - name: dbt deps
         working-directory: dbt
