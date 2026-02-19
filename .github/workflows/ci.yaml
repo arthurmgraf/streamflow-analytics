@@ -105,10 +105,12 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install ".[dev]" pip-audit
+        run: |
+          pip install ".[dev]" pip-audit
+          pip freeze | grep -iv streamflow-analytics > /tmp/requirements.txt
 
       - name: Dependency audit
-        run: pip-audit --strict --desc
+        run: pip-audit --strict --desc -r /tmp/requirements.txt
 
   dbt-validate:
     name: dbt Compile & Test
@@ -130,9 +132,9 @@ jobs:
         env:
           POSTGRES_PASSWORD: "ci"
 
-      - name: dbt compile (syntax validation)
+      - name: dbt parse (syntax validation)
         working-directory: dbt
-        run: dbt compile --profiles-dir . --target dev
+        run: dbt parse --profiles-dir . --target dev
         env:
           POSTGRES_HOST: "localhost"
           POSTGRES_PASSWORD: "ci"

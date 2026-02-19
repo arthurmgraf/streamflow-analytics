@@ -8,7 +8,8 @@ RUN apt-get update -y && \
     ln -sf /usr/bin/python3 /usr/bin/python && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --no-cache-dir \
+RUN pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir --default-timeout=120 \
     apache-flink==1.20.0 \
     confluent-kafka \
     scikit-learn \
