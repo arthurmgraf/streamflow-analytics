@@ -6,6 +6,13 @@
 # Executor: LocalExecutor runs tasks in the scheduler process (no workers needed)
 executor: "LocalExecutor"
 
+# Custom image with dbt-core + dbt-postgres + astronomer-cosmos
+images:
+  airflow:
+    repository: streamflow/airflow-dbt
+    tag: latest
+    pullPolicy: Never
+
 # ---------------------------------------------------------------------------
 # Webserver
 # ---------------------------------------------------------------------------
@@ -72,6 +79,11 @@ dags:
     enabled: false
   gitSync:
     enabled: false
+
+# Extra environment variables for dbt + Cosmos
+env:
+  - name: DBT_PROJECT_PATH
+    value: "/opt/airflow/dbt"
 
 # ---------------------------------------------------------------------------
 # Internal PostgreSQL (metadata database)

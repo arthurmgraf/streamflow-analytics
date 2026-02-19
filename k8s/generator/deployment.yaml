@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-generator
+  namespace: streamflow-kafka
+  labels:
+    app: transaction-generator
+    app.kubernetes.io/part-of: streamflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transaction-generator
+  template:
+    metadata:
+      labels:
+        app: transaction-generator
+        app.kubernetes.io/part-of: streamflow
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+      containers:
+        - name: generator
+          image: streamflow/generator:latest
+          imagePullPolicy: Never
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "streamflow-kafka-bootstrap.streamflow-kafka.svc.cluster.local:9092"
+            - name: STREAMFLOW_ENV
+              value: "production"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+      restartPolicy: Always

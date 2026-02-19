@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: int_customer_stats
+    description: "Aggregated customer statistics from clean transactions"
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      - name: avg_transaction_amt
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: false
+      - name: total_transactions
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+      - name: risk_profile
+        tests:
+          - accepted_values:
+              values: ["normal", "medium", "high"]

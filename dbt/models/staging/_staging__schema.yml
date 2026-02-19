@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: "Cleaned transactions from Bronze raw_transactions"
+    columns:
+      - name: transaction_id
+        description: "Unique transaction identifier"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: store_id
+        tests:
+          - not_null
+      - name: amount
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: false
+      - name: currency
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["BRL", "USD", "EUR"]
+      - name: transaction_at
+        tests:
+          - not_null
+      - name: is_valid
+        tests:
+          - accepted_values:
+              values: [true, false]
+      - name: fraud_score
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+
+  - name: stg_fraud_alerts
+    description: "Fraud alerts from Bronze raw_fraud_alerts"
+    columns:
+      - name: transaction_id
+        description: "Transaction that triggered the alert"
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: fraud_score
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      - name: alert_type
+        tests:
+          - not_null
+      - name: detected_at
+        tests:
+          - not_null

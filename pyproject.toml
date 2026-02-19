@@ -49,6 +49,11 @@ flink = [
 airflow = [
     "apache-airflow>=2.10.0",
     "apache-airflow-providers-postgres>=5.10.0",
+    "astronomer-cosmos>=1.5.0",
+]
+dbt = [
+    "dbt-core>=1.7.0",
+    "dbt-postgres>=1.7.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -104,6 +109,7 @@ module = [
     "confluent_kafka.*",
     "pyflink.*",
     "airflow.*",
+    "cosmos.*",
     "sklearn.*",
     "joblib.*",
     "numpy.*",

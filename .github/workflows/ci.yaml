@@ -110,6 +110,48 @@ jobs:
       - name: Dependency audit
         run: pip-audit --strict --desc --skip-editable
 
+  dbt-validate:
+    name: dbt Compile & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dbt
+        run: pip install dbt-core dbt-postgres dbt-labs/dbt_utils
+
+      - name: dbt deps
+        working-directory: dbt
+        run: dbt deps --profiles-dir .
+        env:
+          POSTGRES_PASSWORD: "ci"
+
+      - name: dbt compile (syntax validation)
+        working-directory: dbt
+        run: dbt compile --profiles-dir . --target dev
+        env:
+          POSTGRES_HOST: "localhost"
+          POSTGRES_PASSWORD: "ci"
+
+  docker-build:
+    name: Docker Build Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build PyFlink image
+        run: docker build -t streamflow/pyflink:ci -f docker/flink/Dockerfile .
+
+      - name: Build Generator image
+        run: docker build -t streamflow/generator:ci -f docker/generator/Dockerfile .
+
+      - name: Build Airflow-dbt image
+        run: docker build -t streamflow/airflow-dbt:ci -f docker/airflow/Dockerfile .
+
   k8s-validate:
     name: K8s Manifest Validation
     runs-on: ubuntu-latest
