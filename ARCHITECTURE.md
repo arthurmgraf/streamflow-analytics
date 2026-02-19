@@ -35,7 +35,7 @@
 │                              │                                               │
 │  ┌─ ns: streamflow-orchestration ──────────────────────────────────────────┐ │
 │  │  [Airflow Helm — LocalExecutor]                                        │ │
-│  │  DAGs: bronze_to_silver │ silver_to_gold │ data_quality │ maintenance  │ │
+│  │  DAGs: dbt_staging │ dbt_marts │ dbt_quality │ maintenance              │ │
 │  │  Resources: 200m/400m CPU, 512Mi/768Mi RAM                            │ │
 │  └─────────────────────────────────────────────────────────────────────────┘ │
 │                              │                                               │
@@ -323,6 +323,69 @@
 
 ---
 
+### ADR-013: dbt Over Raw SQL for Data Transforms
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-18 |
+
+**Context:** Raw SQL files via PostgresOperator had no lineage tracking, no schema testing, and no incremental support.
+
+**Decision:** Replace all raw SQL transforms with dbt-core + dbt-postgres. Models in `staging/`, `intermediate/`, `marts/` with schema tests and custom `generate_schema_name` macro.
+
+**Rationale:**
+- Full dependency DAG and lineage tracking
+- Schema + singular tests co-located with models
+- Incremental processing via `is_incremental()` macro
+- Industry-standard analytics engineering tool
+
+Full ADR: [docs/adr/004-dbt-over-raw-sql.md](docs/adr/004-dbt-over-raw-sql.md)
+
+---
+
+### ADR-014: Astronomer Cosmos for dbt + Airflow Integration
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-18 |
+
+**Context:** dbt models need to run inside Airflow. BashOperator is monolithic; custom operators add maintenance burden.
+
+**Decision:** Use Astronomer Cosmos `DbtTaskGroup` with `InvocationMode.SUBPROCESS`. Each dbt model becomes a separate Airflow task with per-model retries and auto-dependency mapping.
+
+**Rationale:**
+- Per-model task visibility in Airflow UI
+- Automatic `ref()` to Airflow dependency mapping
+- Granular retries per model (not per DAG)
+- 21M+ monthly downloads, supports Airflow 2.x/3.x
+
+Full ADR: [docs/adr/005-cosmos-airflow-integration.md](docs/adr/005-cosmos-airflow-integration.md)
+
+---
+
+### ADR-015: PyFlink Docker Without Custom JAR
+
+| Attribute | Value |
+|-----------|-------|
+| **Status** | Accepted |
+| **Date** | 2026-02-18 |
+
+**Context:** Flink K8s manifests referenced `streamflow-jobs.jar` which didn't exist. Project uses PyFlink (Python) for all jobs.
+
+**Decision:** Use the built-in `flink-python_2.12-1.20.0.jar` PythonDriver JAR from the base Flink image. Custom Docker image adds Python + PyFlink + scikit-learn.
+
+**Rationale:**
+- Zero Java toolchain (no Maven/Gradle)
+- Simple Dockerfile: `flink:1.20-java17` base + `pip install`
+- Follows official Flink K8s Operator Python examples
+- Docker build ~2min vs ~10min for Maven fat JAR
+
+Full ADR: [docs/adr/006-pyflink-docker-no-jar.md](docs/adr/006-pyflink-docker-no-jar.md)
+
+---
+
 ## Data Flow
 
 ### Streaming Path (Real-time, < 30s latency)
@@ -362,29 +425,28 @@
     └── JDBC Sink → bronze.raw_fraud_alerts
 ```
 
-### Batch Path (Airflow, hourly)
+### Batch Path (Airflow + dbt via Cosmos, hourly)
 
 ```text
-4. BRONZE → SILVER (DAG: bronze_to_silver, @hourly)
-   [sql/transforms/bronze_to_silver.sql]
-   ├── Extract fields from JSONB payload
-   ├── Join fraud scores from raw_fraud_alerts
-   ├── Deduplicate by transaction_id (ON CONFLICT upsert)
-   └── Insert into silver.clean_transactions
+4. BRONZE → SILVER (DAG: dbt_staging, @hourly)
+   [dbt/models/staging/ — Cosmos DbtTaskGroup]
+   ├── stg_transactions: incremental from bronze.raw_transactions
+   ├── stg_fraud_alerts: incremental from bronze.raw_fraud_alerts
+   └── Each dbt model = separate Airflow task (per-model retries)
         │
-5. SILVER → GOLD (DAG: silver_to_gold, @hourly)
-   [sql/transforms/silver_to_gold.sql]
-   ├── Upsert dimension tables (dim_customer, dim_store, dim_product)
-   ├── Load fact_transactions and fact_fraud_alerts
-   ├── Refresh agg_hourly_sales and agg_daily_fraud
-   └── Star schema ready for analytics
+5. SILVER → GOLD (DAG: dbt_marts, @hourly)
+   [dbt/models/intermediate/ + dbt/models/marts/ — Cosmos DbtTaskGroup]
+   ├── ExternalTaskSensor waits for dbt_staging completion
+   ├── int_customer_stats: customer aggregations
+   ├── dim_customer, dim_store: dimension upserts
+   ├── fct_transactions, fct_fraud_alerts: fact loads
+   └── agg_hourly_sales, agg_daily_fraud: aggregations
         │
-6. DATA QUALITY (DAG: data_quality, every 15 min)
-   [sql/quality/quality_checks.sql]
-   ├── Null rate check (< 5% threshold)
-   ├── Duplicate detection
-   ├── Freshness check (< 2 hours)
-   └── Amount validity (> 0, < 1M)
+6. DATA QUALITY (DAG: dbt_quality, every 15 min)
+   [dbt singular tests — Cosmos DbtTaskGroup]
+   ├── Schema tests (unique, not_null, accepted_range)
+   ├── Singular tests (positive amounts, data freshness)
+   └── Per-test visibility in Airflow UI
 ```
 
 ---

@@ -4,7 +4,7 @@
 
 Production-grade event-driven architecture built with Apache Kafka, Apache Flink, Apache Airflow, and PostgreSQL on Kubernetes. Features ML-augmented fraud detection, Dead Letter Queue, SLO-based monitoring, ArgoCD GitOps, and full observability stack.
 
-[![CI](https://github.com/arthurmaiagraf/streamflow-analytics/actions/workflows/ci.yaml/badge.svg)](https://github.com/arthurmaiagraf/streamflow-analytics/actions)
+[![CI](https://github.com/arthurmgraf/streamflow-analytics/actions/workflows/ci.yaml/badge.svg)](https://github.com/arthurmgraf/streamflow-analytics/actions)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
 [![Coverage >80%](https://img.shields.io/badge/coverage-%3E80%25-brightgreen.svg)]()
 [![Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://docs.astral.sh/ruff/)
@@ -34,7 +34,7 @@ StreamFlow solves this with an event-driven streaming pipeline: transactions flo
 | End-to-End Latency | < 30 seconds |
 | Throughput | 10,000+ events/second |
 | Infrastructure Cost | $0 (on-premise K3s) |
-| Test Coverage | > 80% (254 tests) |
+| Test Coverage | > 80% (286 tests) |
 | Fraud Detection | 5 rules + ML (Isolation Forest) |
 | Deployment | ArgoCD GitOps with auto-sync |
 | Checkpointing | EXACTLY_ONCE with RocksDB |
@@ -84,10 +84,10 @@ StreamFlow solves this with an event-driven streaming pipeline: transactions flo
                                     │                 │                    │
                                     │  streamflow-orchestration (Airflow) │
                                     │  ┌──────────────▼───────────────┐   │
-                                    │  │ bronze_to_silver  (@hourly)  │   │
-                                    │  │ silver_to_gold    (@hourly)  │   │
-                                    │  │ data_quality      (*/15 min) │   │
-                                    │  │ maintenance       (@daily)   │   │
+                                    │  │ dbt_staging    (@hourly)     │   │
+                                    │  │ dbt_marts      (@hourly)     │   │
+                                    │  │ dbt_quality    (*/15 min)    │   │
+                                    │  │ maintenance    (@daily)      │   │
                                     │  └─────────────────────────────┘   │
                                     │                                      │
                                     │  streamflow-monitoring               │
@@ -197,14 +197,15 @@ All layers coexist as PostgreSQL schemas (not separate databases) — single con
 | **Streaming** | Apache Kafka (Strimzi, KRaft) | Event backbone, no ZooKeeper |
 | **Processing** | Apache Flink (PyFlink, K8s Operator) | KeyedProcessFunction, RocksDB state, EXACTLY_ONCE |
 | **ML** | scikit-learn (Isolation Forest) | Unsupervised anomaly detection |
-| **Orchestration** | Apache Airflow (LocalExecutor) | Batch DAGs with TaskGroups, SLA, callbacks |
+| **Orchestration** | Apache Airflow (LocalExecutor) | Cosmos DbtTaskGroup DAGs, SLA, callbacks |
+| **Transforms** | dbt-core + dbt-postgres (Cosmos) | Medallion transforms with lineage and testing |
 | **Database** | PostgreSQL 16 (CloudNativePG) | Medallion architecture (Bronze/Silver/Gold) |
 | **Infrastructure** | K3s + Terraform + Terragrunt | Operator-native Kubernetes, IaC |
 | **Deployment** | ArgoCD | GitOps with auto-sync, self-heal, prune |
 | **Monitoring** | Prometheus + Grafana | 4 dashboards, 9 alert rules, 5 SLOs |
 | **Security** | NetworkPolicies + PDBs | Namespace isolation, non-root pods |
-| **CI/CD** | GitHub Actions | Lint, typecheck, test matrix, security audit, K8s validation |
-| **Quality** | ruff + mypy --strict + pytest | Zero warnings, zero type errors, 254+ tests |
+| **CI/CD** | GitHub Actions | 8 jobs: lint, typecheck, test matrix, security, dbt, docker, K8s |
+| **Quality** | ruff + mypy --strict + pytest | Zero warnings, zero type errors, 286+ tests |
 
 ---
 
@@ -224,8 +225,11 @@ All layers coexist as PostgreSQL schemas (not separate databases) — single con
 | 010 | Error Handling | Dead Letter Queue | Never lose data, investigate failures later |
 | 011 | Deployment | ArgoCD GitOps | Auto-sync, self-heal, declarative, audit trail |
 | 012 | Monitoring | SLO-based with error budgets | 99.5% availability, p99 latency < 5s |
+| 013 | Data Transforms | dbt over raw SQL | Lineage, schema tests, incremental models |
+| 014 | dbt + Airflow | Astronomer Cosmos DbtTaskGroup | Per-model tasks, auto-dependency mapping |
+| 015 | Flink Docker | PyFlink without custom JAR | Zero Java toolchain, PythonDriver JAR |
 
-Full ADR documentation: [ARCHITECTURE.md](ARCHITECTURE.md)
+Full ADR documentation: [ARCHITECTURE.md](ARCHITECTURE.md) | Detailed ADRs: [docs/adr/](docs/adr/)
 
 ---
 
@@ -252,10 +256,10 @@ streamflow-analytics/
 │   │   └── ml/
 │   │       ├── feature_engineering.py   #   6-feature vector extraction
 │   │       └── model_scorer.py          #   Isolation Forest scorer [0,1]
-│   ├── dags/                            # Airflow DAGs
-│   │   ├── bronze_to_silver.py          #   TaskGroups, SLA, callbacks
-│   │   ├── silver_to_gold.py            #   Per-dimension/fact tasks
-│   │   ├── data_quality.py              #   4 quality checks (null, dup, fresh, amount)
+│   ├── dags/                            # Airflow DAGs (Cosmos DbtTaskGroup)
+│   │   ├── dbt_staging.py              #   Bronze -> Silver via Cosmos
+│   │   ├── dbt_marts.py                #   Silver -> Gold via Cosmos
+│   │   ├── dbt_quality.py              #   Schema + singular dbt tests
 │   │   ├── maintenance.py               #   Prune + VACUUM with notifications
 │   │   └── common/callbacks.py          #   Shared failure/success/SLA callbacks
 │   ├── generators/                      # Synthetic data generation
@@ -271,7 +275,7 @@ streamflow-analytics/
 │       └── metrics.py                   #   Business metrics collector
 │
 ├── tests/
-│   ├── unit/                            # 13 test files, 160+ tests
+│   ├── unit/                            # 14 test files, 190+ tests
 │   │   ├── test_models.py               #   Pydantic model validation
 │   │   ├── test_fraud_detector.py       #   FraudRuleEvaluator rules
 │   │   ├── test_fraud_rule_evaluator.py #   Renamed evaluator tests
@@ -338,10 +342,21 @@ streamflow-analytics/
 │   ├── verify_pipeline.py               #   E2E health check
 │   └── train_model.py                   #   Offline ML model training
 │
+├── dbt/                                 #   dbt project (Cosmos integration)
+│   ├── models/staging/                  #     Bronze -> Silver transforms
+│   ├── models/intermediate/             #     Customer aggregations
+│   ├── models/marts/                    #     Gold star schema (dims + facts)
+│   └── macros/                          #     generate_schema_name (routes to PG schemas)
+│
+├── docker/                              #   Container images (3 Dockerfiles)
+│   ├── flink/Dockerfile                 #     PyFlink + scikit-learn
+│   ├── airflow/Dockerfile               #     Airflow + Cosmos + dbt
+│   └── generator/Dockerfile             #     Synthetic event generator
+│
 ├── config/                              #   YAML configurations
-├── docs/                                #   ARCHITECTURE, FRAUD_DETECTION, RUNBOOK
+├── docs/                                #   ARCHITECTURE, FRAUD_DETECTION, RUNBOOK, ADRs
 ├── .github/workflows/
-│   ├── ci.yaml                          #   Lint + Type + Test matrix + Security + K8s
+│   ├── ci.yaml                          #   8 jobs: lint, type, test, security, dbt, docker, K8s
 │   └── deploy.yaml                      #   ArgoCD/kubectl deploy + smoke tests
 ├── pyproject.toml                       #   ruff, mypy, pytest config
 └── Makefile                             #   Dev commands (18 targets)
@@ -362,7 +377,7 @@ streamflow-analytics/
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/arthurmaiagraf/streamflow-analytics.git
+git clone https://github.com/arthurmgraf/streamflow-analytics.git
 cd streamflow-analytics
 pip install -e ".[dev]"
 
@@ -405,7 +420,7 @@ make deploy-argocd
 # Grafana (4 dashboards + SLO tracking)
 kubectl port-forward -n streamflow-monitoring svc/kube-prometheus-stack-grafana 3000:80
 
-# Airflow (5 DAGs with TaskGroups)
+# Airflow (4 DAGs — 3 Cosmos DbtTaskGroup + 1 maintenance)
 kubectl port-forward -n streamflow-orchestration svc/airflow-webserver 8080:8080
 
 # Flink (job dashboard + checkpoints)
@@ -420,7 +435,7 @@ kubectl port-forward svc/argocd-server -n argocd 8443:443
 ## Testing
 
 ```bash
-# Full test suite (254 tests)
+# Full test suite (286 tests)
 make test
 
 # By category
@@ -441,9 +456,9 @@ make check              # lint + typecheck + test (all in one)
 
 | Category | Tests | Purpose |
 |----------|-------|---------|
-| **Unit** | 170+ | Individual function/class behavior + chaos tests |
+| **Unit** | 190+ | Individual function/class behavior + chaos + dbt DAGs |
 | **Contract** | 48 | Schema compatibility between producers/consumers |
-| **Integration** | 10 | Cross-module flows (Generator -> Engine -> Alert) |
+| **Integration** | 14 | Cross-module flows (Generator -> Engine -> Alert) |
 | **Chaos** | 34 | State corruption, extreme inputs, ML degradation |
 
 **Contract tests** guarantee that schema changes don't break downstream consumers. They validate:
@@ -491,16 +506,16 @@ make check              # lint + typecheck + test (all in one)
 
 ---
 
-## Batch Pipeline (Airflow DAGs)
+## Batch Pipeline (Airflow + dbt via Cosmos)
 
-| DAG | Schedule | Tasks | Features |
-|-----|----------|-------|----------|
-| `bronze_to_silver` | `@hourly` | 6 | TaskGroups, pre/post validation, SLA |
-| `silver_to_gold` | `@hourly` | 9 | Per-dimension/fact tasks, parallel dims |
-| `data_quality` | `*/15 min` | 5 | 4 SQL checks + alert notification |
-| `maintenance` | `Daily 03:00` | 4 | Parallel prune + VACUUM ANALYZE |
+| DAG | Schedule | Engine | Features |
+|-----|----------|--------|----------|
+| `dbt_staging` | `@hourly` | Cosmos DbtTaskGroup | Bronze -> Silver, per-model tasks, SLA |
+| `dbt_marts` | `@hourly` | Cosmos DbtTaskGroup | Silver -> Gold, ExternalTaskSensor waits for staging |
+| `dbt_quality` | `*/15 min` | Cosmos DbtTaskGroup | Schema + singular dbt tests |
+| `maintenance` | `Daily 03:00` | PostgresOperator | Parallel prune + VACUUM ANALYZE |
 
-All DAGs include: structured callbacks (failure/success/SLA miss), exponential retry, pool-based concurrency.
+All dbt DAGs use Astronomer Cosmos `DbtTaskGroup` with `InvocationMode.SUBPROCESS` — each dbt model runs as a separate Airflow task with per-model retries, lineage, and callbacks.
 
 ---
 
@@ -516,22 +531,24 @@ All DAGs include: structured callbacks (failure/success/SLA miss), exponential r
 
 ---
 
-## CI/CD Pipeline
+## CI/CD Pipeline (8 Jobs)
 
 ```
 Push to main/PR
     │
-    ├── Lint (ruff check)
+    ├── Lint & Format (ruff check + format)
     ├── Type Check (mypy --strict)
-    ├── Security (pip-audit)
-    └── K8s Validate (kubeval)
+    ├── Security Scan (pip-audit via requirements.txt)
+    ├── K8s Validate (kubeval --strict)
+    ├── dbt Validate (dbt parse — syntax only, no DB)
+    └── Docker Build (PyFlink + Generator + Airflow-dbt images)
             │
-            ▼
+            ▼ (after lint + typecheck pass)
     Test Matrix (Python 3.11 + 3.12)
         ├── Unit Tests
         ├── Contract Tests
         ├── Integration Tests
-        └── Coverage Report (>80%)
+        └── Coverage Report (>80%, Python 3.12 only)
             │
             ▼ (manual trigger)
     Deploy

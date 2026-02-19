@@ -168,17 +168,19 @@ Resilience testing + documentation polish:
 
 | Metric | Value |
 |--------|-------|
-| **Source files** | 35 Python files |
-| **Test files** | 18 test files |
-| **Total tests** | 254 passed, 2 skipped |
+| **Source files** | 36 Python files |
+| **Test files** | 25 test files |
+| **Total tests** | 286 collected (284 passed, 2 skipped) |
 | **ruff** | Zero warnings (strict: E, F, I, UP, B, SIM, N, RUF) |
-| **mypy** | Zero errors (--strict mode, 35 source files) |
-| **Coverage** | > 80% |
-| **K8s manifests** | 11 YAML files |
-| **SQL files** | 18 files (4 migrations, 10 transforms, 4 quality) |
+| **mypy** | Zero errors (--strict mode, 36 source files) |
+| **Coverage** | > 80% (93.57% after infra omit) |
+| **K8s manifests** | 11 YAML files + ArgoCD Application |
+| **SQL files** | 30 files (4 migrations, 10 transforms, 4 quality, 12 dbt models) |
+| **dbt models** | 12 (2 staging, 1 intermediate, 9 marts) |
 | **Infra modules** | 6 Terraform modules |
-| **ADRs** | 12 architecture decisions |
-| **CI jobs** | 5 (lint, typecheck, test matrix, security, k8s-validate) |
+| **ADRs** | 15 architecture decisions (12 inline + 6 detailed in docs/adr/) |
+| **CI jobs** | 8 (lint, typecheck, test×2, security, dbt-validate, docker-build, k8s-validate) |
+| **Docker images** | 3 (PyFlink, Generator, Airflow-dbt) |
 | **Grafana dashboards** | 4 |
 | **Alert rules** | 9 |
 | **SLO definitions** | 5 |
