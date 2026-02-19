@@ -8,10 +8,8 @@ RUN apt-get update -y && \
 USER airflow
 
 RUN pip install --no-cache-dir \
-    astronomer-cosmos \
-    dbt-core \
-    dbt-postgres \
-    apache-airflow-providers-postgres
+    "astronomer-cosmos[dbt-postgres]" \
+    --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.10.4/constraints-3.12.txt"
 
 COPY --chown=airflow:root dbt/ /opt/airflow/dbt/
 COPY --chown=airflow:root src/dags/ /opt/airflow/dags/
