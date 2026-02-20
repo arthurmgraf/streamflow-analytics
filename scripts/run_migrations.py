@@ -38,25 +38,44 @@ def _ensure_tracking_table(config: dict[str, Any]) -> None:
         cur.execute(_TRACKING_DDL)
 
 
-def _applied_versions(config: dict[str, Any]) -> set[str]:
+def _applied_checksums(config: dict[str, Any]) -> dict[str, str]:
     with get_cursor(config) as cur:
-        cur.execute("SELECT version FROM public.schema_migrations ORDER BY version")
-        return {row[0] for row in cur.fetchall()}
+        cur.execute("SELECT version, checksum FROM public.schema_migrations ORDER BY version")
+        return {row[0]: row[1] for row in cur.fetchall()}
 
 
 def _file_checksum(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
 
 
+def _verify_migration_integrity(
+    applied: dict[str, str],
+    migration_files: list[Path],
+) -> None:
+    """Verify that previously applied migrations haven't been modified."""
+    for migration_file in migration_files:
+        version = migration_file.stem
+        if version in applied:
+            current_checksum = _file_checksum(migration_file)
+            if current_checksum != applied[version]:
+                msg = (
+                    f"Migration {migration_file.name} modified after apply! "
+                    f"Expected {applied[version]}, got {current_checksum}"
+                )
+                raise RuntimeError(msg)
+
+
 def run_migrations(config: dict[str, Any]) -> None:
     """Execute unapplied SQL migration files in order."""
     _ensure_tracking_table(config)
-    applied = _applied_versions(config)
+    applied = _applied_checksums(config)
 
     migration_files = sorted(MIGRATIONS_DIR.glob("*.sql"))
     if not migration_files:
         logger.warning("No migration files found in %s", MIGRATIONS_DIR)
         return
+
+    _verify_migration_integrity(applied, migration_files)
 
     pending = [f for f in migration_files if f.stem not in applied]
     if not pending:

@@ -104,11 +104,11 @@ class TestLoadConfig:
             config = load_config(config_dir=config_dir, env="dev")
             assert config["postgres"]["password"] == "secret123"
 
-    def test_env_var_default_value(self, config_dir: Path) -> None:
+    def test_env_var_no_default_returns_empty(self, config_dir: Path) -> None:
         env = os.environ.pop("POSTGRES_PASSWORD", None)
         try:
             config = load_config(config_dir=config_dir, env="dev")
-            assert config["postgres"]["password"] == "changeme"
+            assert config["postgres"]["password"] == ""
         finally:
             if env is not None:
                 os.environ["POSTGRES_PASSWORD"] = env

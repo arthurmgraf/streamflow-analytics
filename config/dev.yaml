@@ -9,7 +9,7 @@ postgres:
   port: 5432
   database: "streamflow"
   user: "streamflow"
-  password: "${POSTGRES_PASSWORD:-changeme}"
+  password: "${POSTGRES_PASSWORD}"
 
 flink:
   checkpoint_interval_ms: 30000

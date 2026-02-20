@@ -10,6 +10,7 @@ Model is loaded once in Flink's open() and reused for every element.
 
 from __future__ import annotations
 
+import hashlib
 import logging
 from pathlib import Path
 from typing import Any
@@ -38,11 +39,35 @@ class AnomalyScorer:
         self._score_min = score_min
         self._score_max = score_max
 
+    def _verify_checksum(self) -> bool:
+        """Verify model file integrity via SHA256 checksum."""
+        checksum_path = self._model_path.with_suffix(".sha256")
+        if not checksum_path.exists():
+            logger.warning("No checksum file at %s — skipping verification", checksum_path)
+            return True
+
+        expected = checksum_path.read_text().strip().split()[0]
+        actual = hashlib.sha256(self._model_path.read_bytes()).hexdigest()
+
+        if actual != expected:
+            logger.error(
+                "Model checksum mismatch: expected=%s actual=%s",
+                expected[:16],
+                actual[:16],
+            )
+            return False
+        logger.info("Model checksum verified: %s", actual[:16])
+        return True
+
     def load(self) -> None:
         """Load the model from disk. Call once during Flink open()."""
         try:
             import joblib
 
+            if not self._verify_checksum():
+                logger.warning("Model integrity check failed — ML scoring disabled")
+                self._model = None
+                return
             self._model = joblib.load(self._model_path)
             logger.info("ML model loaded from %s", self._model_path)
         except FileNotFoundError:

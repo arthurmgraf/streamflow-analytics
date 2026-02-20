@@ -35,6 +35,13 @@ spec:
         runAsNonRoot: true
         runAsUser: 9999
         fsGroup: 9999
+      volumes:
+        - name: flink-checkpoints
+          emptyDir: {}
+        - name: flink-savepoints
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
       containers:
         - name: flink-main-container
           securityContext:
@@ -42,7 +49,14 @@ spec:
             capabilities:
               drop:
                 - ALL
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: flink-checkpoints
+              mountPath: /opt/flink/checkpoints
+            - name: flink-savepoints
+              mountPath: /opt/flink/savepoints
+            - name: tmp
+              mountPath: /tmp
           env:
             - name: STREAMFLOW_ENV
               value: "production"

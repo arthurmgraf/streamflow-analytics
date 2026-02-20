@@ -13,6 +13,7 @@ resources:
   # Security
   - security/network-policies.yaml
   - security/pod-disruption-budgets.yaml
+  - security/rbac.yaml
 
   # Monitoring
   - monitoring/service-monitors.yaml

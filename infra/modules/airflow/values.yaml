@@ -32,7 +32,10 @@ webserver:
     email: admin@streamflow.local
     firstName: StreamFlow
     lastName: Admin
-    password: admin
+    # No hardcoded password — set AIRFLOW_ADMIN_PASSWORD env var before deploy
+    # kubectl create secret generic airflow-webserver-secret \
+    #   --from-literal=password='<secure>' -n streamflow-orchestration
+    password: "${AIRFLOW_ADMIN_PASSWORD}"
 
 # ---------------------------------------------------------------------------
 # Scheduler
@@ -91,9 +94,13 @@ env:
 postgresql:
   enabled: true
   auth:
-    postgresPassword: "airflow"
+    # No hardcoded password — set AIRFLOW_DB_PASSWORD env var before deploy
+    # kubectl create secret generic airflow-postgresql-secret \
+    #   --from-literal=postgres-password='<secure>' \
+    #   --from-literal=password='<secure>' -n streamflow-orchestration
+    postgresPassword: "${AIRFLOW_DB_PASSWORD}"
     username: "airflow"
-    password: "airflow"
+    password: "${AIRFLOW_DB_PASSWORD}"
     database: "airflow"
   primary:
     resources:

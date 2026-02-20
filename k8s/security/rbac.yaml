@@ -1,0 +1,42 @@
+---
+# Flink ServiceAccount — referenced by FlinkDeployment manifests
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flink
+  namespace: streamflow-processing
+  labels:
+    app.kubernetes.io/part-of: streamflow
+automountServiceAccountToken: false
+
+---
+# Minimal Role — Flink jobs only need ConfigMap access for checkpointing metadata
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flink-role
+  namespace: streamflow-processing
+  labels:
+    app.kubernetes.io/part-of: streamflow
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch"]
+
+---
+# Bind the ServiceAccount to the Role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: flink-rolebinding
+  namespace: streamflow-processing
+  labels:
+    app.kubernetes.io/part-of: streamflow
+subjects:
+  - kind: ServiceAccount
+    name: flink
+    namespace: streamflow-processing
+roleRef:
+  kind: Role
+  name: flink-role
+  apiGroup: rbac.authorization.k8s.io
